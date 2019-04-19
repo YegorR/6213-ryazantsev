@@ -3,7 +3,7 @@ package ru.cft.focusstart.ryazantsev.figure;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public abstract class FigureImpl implements Figure {
+abstract class FigureImpl implements Figure {
 
 
     private Map<String, Object> descriptionLines = new LinkedHashMap<>();
@@ -20,7 +20,7 @@ public abstract class FigureImpl implements Figure {
         return description.toString();
     }
 
-    protected final void addToDescription(String valueDescription, Object value) {
+    final void addToDescription(String valueDescription, Object value) {
         descriptionLines.put(valueDescription, value);
     }
 }
