@@ -1,11 +1,12 @@
 package ru.cft.focusstart.ryazantsev.figure;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public abstract class FigureImpl implements Figure {
 
-    private Map<String, Object> descriptionLines = new HashMap<>();
+
+    private Map<String, Object> descriptionLines = new LinkedHashMap<>();
 
     @Override
     public final String getDescription() {
