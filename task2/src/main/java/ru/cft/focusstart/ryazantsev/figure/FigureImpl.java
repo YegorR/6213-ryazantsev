@@ -10,7 +10,7 @@ public abstract class FigureImpl implements Figure {
     @Override
     public final String getDescription() {
         StringBuilder description = new StringBuilder();
-        for(Map.Entry<String, Object> entry: descriptionLines.entrySet()){
+        for (Map.Entry<String, Object> entry : descriptionLines.entrySet()) {
             description.append(entry.getKey());
             description.append(": ");
             description.append(entry.getValue());
@@ -19,7 +19,7 @@ public abstract class FigureImpl implements Figure {
         return description.toString();
     }
 
-    protected final void addToDescription(String valueDescription, Object value){
+    protected final void addToDescription(String valueDescription, Object value) {
         descriptionLines.put(valueDescription, value);
     }
 }
