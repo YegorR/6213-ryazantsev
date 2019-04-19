@@ -31,6 +31,7 @@ public class ArgsReader {
                     break;
                 case "TRIANGLE":
                     figureName = FigureName.TRIANGLE;
+                    break;
                 default:
                     return;
             }
