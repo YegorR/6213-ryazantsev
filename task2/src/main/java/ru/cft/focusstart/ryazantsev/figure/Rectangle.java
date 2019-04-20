@@ -1,13 +1,19 @@
 package ru.cft.focusstart.ryazantsev.figure;
 
+import ru.cft.focusstart.ryazantsev.exception.WrongParametersException;
+
 public class Rectangle extends FigureImpl implements Figure {
     private final static String NAME = "Прямоугольник";
 
     private double width;
     private double height;
 
-    public Rectangle(double a, double b) {
-        if (a >= b){
+    public Rectangle(double a, double b) throws WrongParametersException {
+        if ((a <= 0) || (b <= 0)) {
+            throw new WrongParametersException();
+        }
+
+        if (a >= b) {
             width = a;
             height = b;
         } else {
