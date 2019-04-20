@@ -1,10 +1,15 @@
 package ru.cft.focusstart.ryazantsev.figure;
 
+import ru.cft.focusstart.ryazantsev.exception.WrongParametersException;
+
 public class Circle extends FigureImpl implements Figure {
     private final static String NAME = "Круг";
     private double radius;
 
-    public Circle(double radius) {
+    public Circle(double radius) throws WrongParametersException {
+        if (radius <= 0) {
+            throw new WrongParametersException();
+        }
         this.radius = radius;
 
         createDescription();
