@@ -1,12 +1,21 @@
 package ru.cft.focusstart.ryazantsev.figure;
 
+import ru.cft.focusstart.ryazantsev.exception.WrongParametersException;
+
 public class Triangle extends FigureImpl implements Figure {
     private final static String NAME = "Треугольник";
     private double a;
     private double b;
     private double c;
 
-    public Triangle(double a, double b, double c) {
+    public Triangle(double a, double b, double c) throws WrongParametersException {
+        if ((a <= 0) || (b <= 0) || (c <= 0)) {
+            throw new WrongParametersException();
+        }
+        if ((a + b <= c) || (a + c <= b) || (b + c <= a)) {
+            throw new WrongParametersException();
+        }
+
         this.a = a;
         this.b = b;
         this.c = c;
