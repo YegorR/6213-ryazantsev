@@ -6,7 +6,7 @@ public class Rectangle extends FigureImpl implements Figure {
     private final static String NAME = "Прямоугольник";
 
     private double width;
-    private double height;
+    private double length;
 
     public Rectangle(double a, double b) throws WrongParametersException {
         if ((a <= 0) || (b <= 0)) {
@@ -14,11 +14,11 @@ public class Rectangle extends FigureImpl implements Figure {
         }
 
         if (a >= b) {
-            width = a;
-            height = b;
-        } else {
             width = b;
-            height = a;
+            length = a;
+        } else {
+            width = a;
+            length = b;
         }
 
         createDescription();
@@ -30,18 +30,18 @@ public class Rectangle extends FigureImpl implements Figure {
         addToDescription("Периметр", calculatePerimeter());
         addToDescription("Диагональ", calculateDiagonal());
         addToDescription("Ширина", width);
-        addToDescription("Длина", height);
+        addToDescription("Длина", length);
     }
 
     private double calculateSquare() {
-        return width * height;
+        return width * length;
     }
 
     private double calculatePerimeter() {
-        return (width + height) * 2;
+        return (width + length) * 2;
     }
 
     private double calculateDiagonal() {
-        return Math.sqrt(width * width + height * height);
+        return Math.sqrt(width * width + length * length);
     }
 }
