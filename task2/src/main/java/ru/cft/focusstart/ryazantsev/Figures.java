@@ -22,22 +22,14 @@ public class Figures {
             }
         } catch (NoArgsException ex) {
             System.err.println("The input file name is not specified!");
-        } catch (InputFileNotFoundException ex) {
-            System.err.println("The input file is not found!");
-        } catch (EmptyInputFileException ex) {
-            System.err.println("The input file is empty!");
-        } catch (IOInputException ex) {
-            System.err.println("The IOException of the input file!");
-        } catch (IOOutputException ex) {
-            System.err.println("The IOException of the output file!");
         } catch (NotEnoughParametersException ex) {
             System.err.println("Not enough parameters in the input file for this figure!");
-        } catch (OutputFileNotFoundException ex) {
-            System.err.println("The output file is not found!");
         } catch (WrongFigureNameException ex) {
             System.err.print("The specified figure name is wrong!");
         } catch (WrongParametersException ex) {
             System.err.println("The specified parameters are wrong!");
+        } catch (FileException ex) {
+            System.err.println(ex.getMessage());
         }
     }
 }
