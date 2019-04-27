@@ -3,8 +3,6 @@ package ru.cft.focusstart.ryazantsev.figure;
 import ru.cft.focusstart.ryazantsev.exception.WrongParametersException;
 
 public class Rectangle extends FigureImpl {
-    private final static String NAME = "Прямоугольник";
-
     private double width;
     private double length;
 
@@ -25,7 +23,7 @@ public class Rectangle extends FigureImpl {
     }
 
     private void createDescription() {
-        addToDescription("Тип фигуры", NAME);
+        addToDescription("Тип фигуры", getName());
         addToDescription("Площадь", calculateSquare());
         addToDescription("Периметр", calculatePerimeter());
         addToDescription("Диагональ", calculateDiagonal());
@@ -43,5 +41,10 @@ public class Rectangle extends FigureImpl {
 
     private double calculateDiagonal() {
         return Math.sqrt(width * width + length * length);
+    }
+
+    @Override
+    public String getName() {
+        return "Прямоугольник";
     }
 }
