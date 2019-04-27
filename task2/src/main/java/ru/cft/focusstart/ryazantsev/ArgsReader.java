@@ -1,9 +1,7 @@
 package ru.cft.focusstart.ryazantsev;
 
 
-import ru.cft.focusstart.ryazantsev.exception.EmptyInputFileException;
-import ru.cft.focusstart.ryazantsev.exception.IOInputException;
-import ru.cft.focusstart.ryazantsev.exception.InputFileNotFoundException;
+import ru.cft.focusstart.ryazantsev.exception.FileException;
 import ru.cft.focusstart.ryazantsev.exception.WrongFigureNameException;
 
 import java.io.FileNotFoundException;
@@ -23,7 +21,7 @@ public class ArgsReader {
         this.filename = filename;
     }
 
-    public void read() throws InputFileNotFoundException, EmptyInputFileException, IOInputException, WrongFigureNameException {
+    public void read() throws FileException, WrongFigureNameException {
         try (FileReader fr = new FileReader(filename)) {
             Scanner scanner = new Scanner(fr);
             String line = scanner.nextLine();
@@ -45,11 +43,11 @@ public class ArgsReader {
                 parameters.add(scanner.nextDouble());
             }
         } catch (FileNotFoundException ex) {
-            throw new InputFileNotFoundException();
+            throw new FileException("The input file is not found!");
         } catch (IOException ex) {
-            throw new IOInputException();
+            throw new FileException("The IOException of the input file!");
         } catch (NoSuchElementException ex) {
-            throw new EmptyInputFileException();
+            throw new FileException("The input file is empty!");
         }
     }
 
