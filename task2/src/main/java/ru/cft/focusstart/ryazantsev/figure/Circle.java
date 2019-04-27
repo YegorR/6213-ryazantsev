@@ -3,7 +3,6 @@ package ru.cft.focusstart.ryazantsev.figure;
 import ru.cft.focusstart.ryazantsev.exception.WrongParametersException;
 
 public class Circle extends FigureImpl {
-    private final static String NAME = "Круг";
     private double radius;
 
     public Circle(double radius) throws WrongParametersException {
@@ -16,7 +15,7 @@ public class Circle extends FigureImpl {
     }
 
     private void createDescription() {
-        addToDescription("Тип фигуры", NAME);
+        addToDescription("Тип фигуры", getName());
         addToDescription("Площадь", calculateSquare());
         addToDescription("Периметр", calculatePerimeter());
         addToDescription("Радиус", radius);
@@ -33,5 +32,10 @@ public class Circle extends FigureImpl {
 
     private double calculateDiameter() {
         return 2 * radius;
+    }
+
+    @Override
+    public String getName() {
+        return "Круг";
     }
 }
