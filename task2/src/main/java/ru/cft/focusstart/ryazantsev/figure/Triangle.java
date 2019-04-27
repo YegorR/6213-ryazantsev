@@ -3,7 +3,6 @@ package ru.cft.focusstart.ryazantsev.figure;
 import ru.cft.focusstart.ryazantsev.exception.WrongParametersException;
 
 public class Triangle extends FigureImpl {
-    private final static String NAME = "Треугольник";
     private double a;
     private double b;
     private double c;
@@ -24,7 +23,7 @@ public class Triangle extends FigureImpl {
     }
 
     private void createDescription() {
-        addToDescription("Тип фигуры", NAME);
+        addToDescription("Тип фигуры", getName());
         addToDescription("Площадь", calculateSquare());
         addToDescription("Периметр", calculatePerimeter());
         addToDescription("Сторона a", a);
@@ -57,5 +56,10 @@ public class Triangle extends FigureImpl {
     private double calculateAngleC() {
         double angle = Math.acos((a * a + b * b - c * c) / (2 * a * b));
         return Math.toDegrees(angle);
+    }
+
+    @Override
+    public String getName() {
+        return "Треугольник";
     }
 }
