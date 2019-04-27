@@ -2,7 +2,7 @@ package ru.cft.focusstart.ryazantsev.figure;
 
 import ru.cft.focusstart.ryazantsev.exception.WrongParametersException;
 
-public class Triangle extends FigureImpl implements Figure {
+public class Triangle extends FigureImpl {
     private final static String NAME = "Треугольник";
     private double a;
     private double b;

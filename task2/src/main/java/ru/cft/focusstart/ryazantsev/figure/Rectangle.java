@@ -2,7 +2,7 @@ package ru.cft.focusstart.ryazantsev.figure;
 
 import ru.cft.focusstart.ryazantsev.exception.WrongParametersException;
 
-public class Rectangle extends FigureImpl implements Figure {
+public class Rectangle extends FigureImpl {
     private final static String NAME = "Прямоугольник";
 
     private double width;

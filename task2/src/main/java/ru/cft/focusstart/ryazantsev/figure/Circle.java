@@ -2,7 +2,7 @@ package ru.cft.focusstart.ryazantsev.figure;
 
 import ru.cft.focusstart.ryazantsev.exception.WrongParametersException;
 
-public class Circle extends FigureImpl implements Figure {
+public class Circle extends FigureImpl {
     private final static String NAME = "Круг";
     private double radius;
 
