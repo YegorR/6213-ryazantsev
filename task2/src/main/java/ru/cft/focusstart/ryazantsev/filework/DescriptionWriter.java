@@ -1,4 +1,4 @@
-package ru.cft.focusstart.ryazantsev;
+package ru.cft.focusstart.ryazantsev.filework;
 
 
 import ru.cft.focusstart.ryazantsev.exception.FileException;

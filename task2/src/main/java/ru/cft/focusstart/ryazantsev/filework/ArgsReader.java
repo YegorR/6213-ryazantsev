@@ -1,6 +1,7 @@
-package ru.cft.focusstart.ryazantsev;
+package ru.cft.focusstart.ryazantsev.filework;
 
 
+import ru.cft.focusstart.ryazantsev.FigureName;
 import ru.cft.focusstart.ryazantsev.exception.FileException;
 import ru.cft.focusstart.ryazantsev.exception.WrongFigureNameException;
 
