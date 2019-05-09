@@ -120,7 +120,7 @@ package ru.cft.focusstart.ryazantsev.logic;
 import ru.cft.focusstart.ryazantsev.view.FieldView;
 
 public class FieldLogic {
-    public FieldLogic(FieldCreator fieldCreator, FieldView FieldView) {
+    public FieldLogic(int[][] field, FieldView FieldView) {
 
     }
 
