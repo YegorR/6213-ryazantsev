@@ -22,6 +22,10 @@ public class FieldCreator {
         return field;
     }
 
+    public IntCouple getInitialCell() {
+        return initialCell;
+    }
+
     private void createField() {
         setMines();
         for (int i = 0; i < size.getX(); ++i) {
