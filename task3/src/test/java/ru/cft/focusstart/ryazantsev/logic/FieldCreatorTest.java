@@ -6,6 +6,16 @@ import org.junit.Test;
 
 public class FieldCreatorTest {
     @Test
+    public void testGetInitialCell() {
+        IntCouple size = new IntCouple(9, 9);
+        IntCouple initialCell = new IntCouple(5, 5);
+        int expectedMines = 10;
+
+        FieldCreator fieldCreator = new FieldCreator(size, initialCell, expectedMines);
+        Assert.assertEquals("Первая ячейка не получена!", initialCell, fieldCreator.getInitialCell());
+    }
+
+    @Test
     public void testSmallField() {
         IntCouple size = new IntCouple(9, 9);
         IntCouple initialCell = new IntCouple(5, 5);
