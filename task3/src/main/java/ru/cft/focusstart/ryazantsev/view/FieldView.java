@@ -29,6 +29,20 @@ public class FieldView {
         createButtons();
     }
 
+    public void restart() {
+        if (newGame) {
+            return;
+        }
+        for (CellButton[] row : buttons) {
+            for (CellButton button : row) {
+                panel.remove(button);
+            }
+        }
+        createButtons();
+        panel.validate();
+        fieldLogic = new FieldLogic(fieldCreator.getField(), this);
+    }
+
     public JPanel getPanel() {
         return panel;
     }
@@ -102,8 +116,6 @@ public class FieldView {
         }
         fieldLogic.pressCell(button, left);
     }
-
-
 }
 
 class CellButton extends JButton {

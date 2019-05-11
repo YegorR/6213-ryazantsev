@@ -12,6 +12,8 @@ public class WindowCreator {
     private JFrame frame;
     private JPanel panel;
 
+    private FieldView fieldView;
+
     public void CreateWindow() {
         frame = new JFrame();
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -42,6 +44,7 @@ public class WindowCreator {
         newGameMenu.add(hardModeItem);
 
         JMenuItem restartItem = new JMenuItem("Рестарт");
+        restartItem.addActionListener(e -> fieldView.restart());
         gameMenu.add(restartItem);
         gameMenu.addSeparator();
         JMenuItem recordsItem = new JMenuItem("Рекорды");
@@ -59,7 +62,7 @@ public class WindowCreator {
     }
 
     private void startGame(IntCouple fieldSize, int minesCount) {
-        FieldView fieldView = new FieldView(fieldSize, minesCount);
+        fieldView = new FieldView(fieldSize, minesCount);
         if (panel != null) {
             frame.remove(panel);
         }
