@@ -11,8 +11,10 @@ import java.util.Map;
 
 public class FieldView {
 
-    private JPanel panel;
+    private JPanel gamePanel;
     private CellButton[][] buttons;
+
+    private Top top;
 
     private boolean newGame = true;
     private FieldCreator fieldCreator;
@@ -20,14 +22,18 @@ public class FieldView {
     private IntCouple fieldSize;
     private int minesCount;
 
-    public FieldView(IntCouple fieldSize, int minesCount) {
+    public FieldView(IntCouple fieldSize, int minesCount, Top top) {
         this.fieldSize = fieldSize;
         this.minesCount = minesCount;
+        this.top = top;
 
-        panel = new JPanel();
-        panel.setLayout(new GridLayout(fieldSize.getX(), fieldSize.getY()));
+        gamePanel = new JPanel();
+        gamePanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+        gamePanel.setLayout(new GridLayout(fieldSize.getX(), fieldSize.getY()));
+        top.updateStatusLabel(GameStatus.CONTINUED);
         createButtons();
     }
+
 
     public void restart() {
         if (newGame) {
@@ -35,25 +41,21 @@ public class FieldView {
         }
         for (CellButton[] row : buttons) {
             for (CellButton button : row) {
-                panel.remove(button);
+                gamePanel.remove(button);
             }
         }
+        top.updateStatusLabel(GameStatus.CONTINUED);
         createButtons();
-        panel.validate();
+        gamePanel.validate();
         fieldLogic = new FieldLogic(fieldCreator.getField(), this);
     }
 
-    public JPanel getPanel() {
-        return panel;
+    public JPanel getGamePanel() {
+        return gamePanel;
     }
 
     public void updateCells(Map<IntCouple, ViewCellValue> cells, GameStatus status) {
-        if (status == GameStatus.VICTORY) {
-            System.out.println("Вы победили!");
-        }
-        if (status == GameStatus.DEFEAT) {
-            System.out.println("Вы проиграли!");
-        }
+        top.updateStatusLabel(status);
         for (Map.Entry<IntCouple, ViewCellValue> cell : cells.entrySet()) {
             ViewCellValue state = cell.getValue();
             int x = cell.getKey().getX();
@@ -100,7 +102,7 @@ public class FieldView {
         for (int i = 0; i < fieldSize.getX(); ++i) {
             for (int j = 0; j < fieldSize.getY(); ++j) {
                 buttons[i][j] = new CellButton(this, new IntCouple(i, j));
-                panel.add(buttons[i][j]);
+                gamePanel.add(buttons[i][j]);
             }
         }
     }

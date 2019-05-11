@@ -2,8 +2,9 @@ package ru.cft.focusstart.ryazantsev.view;
 
 import ru.cft.focusstart.ryazantsev.logic.IntCouple;
 
-import java.awt.*;
 import javax.swing.*;
+
+import java.awt.*;
 
 import static ru.cft.focusstart.ryazantsev.GameConstant.*;
 
@@ -14,6 +15,8 @@ public class WindowCreator {
 
     private FieldView fieldView;
 
+    private Top top;
+
     public void CreateWindow() {
         frame = new JFrame();
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -22,6 +25,10 @@ public class WindowCreator {
         frame.setVisible(true);
         frame.setIconImage(IconManager.getIcon("icon.png").getImage());
         frame.setJMenuBar(createMenuBar());
+        frame.setLayout(new BorderLayout());
+
+        top = new Top();
+        frame.add(top.getPanel(), BorderLayout.NORTH);
 
         startGame(EASY_SIZE, EASY_MINE_COUNT);
     }
@@ -62,12 +69,12 @@ public class WindowCreator {
     }
 
     private void startGame(IntCouple fieldSize, int minesCount) {
-        fieldView = new FieldView(fieldSize, minesCount);
+        fieldView = new FieldView(fieldSize, minesCount, top);
         if (panel != null) {
             frame.remove(panel);
         }
-        panel = fieldView.getPanel();
-        frame.add(panel);
+        panel = fieldView.getGamePanel();
+        frame.add(panel, BorderLayout.CENTER);
         frame.pack();
     }
 }
