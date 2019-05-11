@@ -129,10 +129,13 @@ public class FieldLogic {
     private int[][] field;
     private StatusCellValue[][] statusField;
     private FieldView fieldView;
+    private int minesCount;
 
-    public FieldLogic(int[][] field, FieldView fieldView) {
+    public FieldLogic(int[][] field, FieldView fieldView, int minesCount) {
         this.field = field;
         this.fieldView = fieldView;
+        this.minesCount = minesCount;
+        fieldView.updateFlags(minesCount);
 
         statusField = new StatusCellValue[field.length][field[0].length];
         for (StatusCellValue[] row : statusField) {
@@ -169,9 +172,13 @@ public class FieldLogic {
             if (statusField[x][y] == StatusCellValue.UNTOUCHED) {
                 statusField[x][y] = StatusCellValue.FLAG;
                 sentCells.put(cell, ViewCellValue.FLAG);
+                minesCount--;
+                fieldView.updateFlags(minesCount);
             } else if (statusField[x][y] == StatusCellValue.FLAG) {
                 statusField[x][y] = StatusCellValue.UNTOUCHED;
                 sentCells.put(cell, ViewCellValue.UNTOUCHED);
+                minesCount++;
+                fieldView.updateFlags(minesCount);
             } else if (statusField[x][y] == StatusCellValue.TOUCHED) {
                 defeat = touchTouchedCell(x, y, sentCells);
             }

@@ -5,7 +5,6 @@ import java.awt.*;
 
 class IconManager {
     private static final String ICONS_PATH = "task3/src/main/resources/icons/";
-    private static final String FONT_PATH = "task3/src/main/resources/font/";
 
     static ImageIcon getIcon(String filename, int size) {
         return new ImageIcon(new ImageIcon(ICONS_PATH + filename).getImage().getScaledInstance(size,
