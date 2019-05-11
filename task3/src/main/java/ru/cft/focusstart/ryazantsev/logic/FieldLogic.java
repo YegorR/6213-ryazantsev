@@ -143,13 +143,13 @@ public class FieldLogic {
     public void pressCell(IntCouple cell, boolean left) {
         int x = cell.getX();
         int y = cell.getY();
-        Map<IntCouple, ViewCellValues> sentCells = new HashMap<>();
+        Map<IntCouple, ViewCellValue> sentCells = new HashMap<>();
         boolean defeat = false;
 
         if (left) {
             if (statusField[x][y] == StatusCellValue.UNTOUCHED) {
                 if ((field[x][y] >= ONE) && (field[x][y] <= EIGHT)) {
-                    sentCells.put(cell, ViewCellValues.getValueOfNumber(field[x][y]));
+                    sentCells.put(cell, ViewCellValue.getValueOfNumber(field[x][y]));
                     statusField[x][y] = StatusCellValue.TOUCHED;
                 } else if (field[x][y] == MINE) {
                     defeat = true;
@@ -168,10 +168,10 @@ public class FieldLogic {
         } else {
             if (statusField[x][y] == StatusCellValue.UNTOUCHED) {
                 statusField[x][y] = StatusCellValue.FLAG;
-                sentCells.put(cell, ViewCellValues.FLAG);
+                sentCells.put(cell, ViewCellValue.FLAG);
             } else if (statusField[x][y] == StatusCellValue.FLAG) {
                 statusField[x][y] = StatusCellValue.UNTOUCHED;
-                sentCells.put(cell, ViewCellValues.UNTOUCHED);
+                sentCells.put(cell, ViewCellValue.UNTOUCHED);
             } else if (statusField[x][y] == StatusCellValue.TOUCHED) {
                 defeat = touchTouchedCell(x, y, sentCells);
             }
@@ -187,11 +187,11 @@ public class FieldLogic {
     }
 
 
-    private void touchZeroCell(int x, int y, Map<IntCouple, ViewCellValues> sentCells) {
+    private void touchZeroCell(int x, int y, Map<IntCouple, ViewCellValue> sentCells) {
         if ((x < 0) || (y < 0) || (x > field.length - 1) || (y > field[0].length - 1)) {
             return;
         }
-        sentCells.put(new IntCouple(x, y), ViewCellValues.getValueOfNumber(field[x][y]));
+        sentCells.put(new IntCouple(x, y), ViewCellValue.getValueOfNumber(field[x][y]));
         statusField[x][y] = StatusCellValue.TOUCHED;
         if (field[x][y] != ZERO) {
             return;
@@ -208,19 +208,19 @@ public class FieldLogic {
         }
     }
 
-    private void touchMineCell(Map<IntCouple, ViewCellValues> sentCells) {
+    private void touchMineCell(Map<IntCouple, ViewCellValue> sentCells) {
         for (int i = 0; i < statusField.length; ++i) {
             for (int j = 0; j < statusField[0].length; ++j) {
                 if ((field[i][j] == MINE) && (statusField[i][j] == StatusCellValue.UNTOUCHED)) {
-                    sentCells.put(new IntCouple(i, j), ViewCellValues.MINE);
+                    sentCells.put(new IntCouple(i, j), ViewCellValue.MINE);
                 } else if ((field[i][j] != MINE) && (statusField[i][j] == StatusCellValue.FLAG)) {
-                    sentCells.put(new IntCouple(i, j), ViewCellValues.NOMINE);
+                    sentCells.put(new IntCouple(i, j), ViewCellValue.NOMINE);
                 }
             }
         }
     }
 
-    private boolean touchTouchedCell(int x, int y, Map<IntCouple, ViewCellValues> sentCells) {
+    private boolean touchTouchedCell(int x, int y, Map<IntCouple, ViewCellValue> sentCells) {
         if (field[x][y] == ZERO) {
             return false;
         }
@@ -257,7 +257,8 @@ public class FieldLogic {
                         touchZeroCell(x + i, y + j, sentCells);
                     } else if ((field[x + i][y + j] >= ONE) && (field[x + i][y + j] <= EIGHT)) {
                         sentCells.put(new IntCouple(x + i, y + j),
-                                ViewCellValues.getValueOfNumber(field[x + i][y + j]));
+                                ViewCellValue.getValueOfNumber(field[x + i][y + j]));
+                        statusField[x + i][y + j] = StatusCellValue.TOUCHED;
                     } else if (field[x + i][y + j] == MINE) {
                         if (!defeat) {
                             touchMineCell(sentCells);

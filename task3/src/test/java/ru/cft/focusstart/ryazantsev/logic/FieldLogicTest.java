@@ -26,7 +26,7 @@ public class FieldLogicTest {
     };
     private FieldLogic fieldLogic;
     private FieldView fieldView;
-    private Map<IntCouple, ViewCellValues> expectedCells;
+    private Map<IntCouple, ViewCellValue> expectedCells;
 
     @Before
     public void initViewField() {
@@ -37,24 +37,24 @@ public class FieldLogicTest {
 
     @Test
     public void testZeroCell_1() {
-        expectedCells.put(new IntCouple(0, 2), ViewCellValues.ONE);
-        expectedCells.put(new IntCouple(1, 2), ViewCellValues.ONE);
-        expectedCells.put(new IntCouple(1, 3), ViewCellValues.ONE);
-        expectedCells.put(new IntCouple(1, 4), ViewCellValues.ONE);
-        expectedCells.put(new IntCouple(1, 5), ViewCellValues.ONE);
-        expectedCells.put(new IntCouple(2, 5), ViewCellValues.ONE);
-        expectedCells.put(new IntCouple(2, 6), ViewCellValues.ONE);
-        expectedCells.put(new IntCouple(2, 7), ViewCellValues.ONE);
-        expectedCells.put(new IntCouple(2, 8), ViewCellValues.ONE);
-        expectedCells.put(new IntCouple(0, 3), ViewCellValues.ZERO);
-        expectedCells.put(new IntCouple(0, 4), ViewCellValues.ZERO);
-        expectedCells.put(new IntCouple(0, 5), ViewCellValues.ZERO);
-        expectedCells.put(new IntCouple(0, 6), ViewCellValues.ZERO);
-        expectedCells.put(new IntCouple(0, 7), ViewCellValues.ZERO);
-        expectedCells.put(new IntCouple(0, 8), ViewCellValues.ZERO);
-        expectedCells.put(new IntCouple(1, 6), ViewCellValues.ZERO);
-        expectedCells.put(new IntCouple(1, 7), ViewCellValues.ZERO);
-        expectedCells.put(new IntCouple(1, 8), ViewCellValues.ZERO);
+        expectedCells.put(new IntCouple(0, 2), ViewCellValue.ONE);
+        expectedCells.put(new IntCouple(1, 2), ViewCellValue.ONE);
+        expectedCells.put(new IntCouple(1, 3), ViewCellValue.ONE);
+        expectedCells.put(new IntCouple(1, 4), ViewCellValue.ONE);
+        expectedCells.put(new IntCouple(1, 5), ViewCellValue.ONE);
+        expectedCells.put(new IntCouple(2, 5), ViewCellValue.ONE);
+        expectedCells.put(new IntCouple(2, 6), ViewCellValue.ONE);
+        expectedCells.put(new IntCouple(2, 7), ViewCellValue.ONE);
+        expectedCells.put(new IntCouple(2, 8), ViewCellValue.ONE);
+        expectedCells.put(new IntCouple(0, 3), ViewCellValue.ZERO);
+        expectedCells.put(new IntCouple(0, 4), ViewCellValue.ZERO);
+        expectedCells.put(new IntCouple(0, 5), ViewCellValue.ZERO);
+        expectedCells.put(new IntCouple(0, 6), ViewCellValue.ZERO);
+        expectedCells.put(new IntCouple(0, 7), ViewCellValue.ZERO);
+        expectedCells.put(new IntCouple(0, 8), ViewCellValue.ZERO);
+        expectedCells.put(new IntCouple(1, 6), ViewCellValue.ZERO);
+        expectedCells.put(new IntCouple(1, 7), ViewCellValue.ZERO);
+        expectedCells.put(new IntCouple(1, 8), ViewCellValue.ZERO);
 
         fieldLogic.pressCell(new IntCouple(0, 7), true);
 
@@ -63,15 +63,15 @@ public class FieldLogicTest {
 
     @Test
     public void testZeroCell_2() {
-        expectedCells.put(new IntCouple(4, 5), ViewCellValues.ZERO);
-        expectedCells.put(new IntCouple(3, 4), ViewCellValues.THREE);
-        expectedCells.put(new IntCouple(3, 5), ViewCellValues.ONE);
-        expectedCells.put(new IntCouple(3, 6), ViewCellValues.TWO);
-        expectedCells.put(new IntCouple(4, 6), ViewCellValues.TWO);
-        expectedCells.put(new IntCouple(5, 6), ViewCellValues.TWO);
-        expectedCells.put(new IntCouple(5, 5), ViewCellValues.ONE);
-        expectedCells.put(new IntCouple(5, 4), ViewCellValues.TWO);
-        expectedCells.put(new IntCouple(4, 4), ViewCellValues.TWO);
+        expectedCells.put(new IntCouple(4, 5), ViewCellValue.ZERO);
+        expectedCells.put(new IntCouple(3, 4), ViewCellValue.THREE);
+        expectedCells.put(new IntCouple(3, 5), ViewCellValue.ONE);
+        expectedCells.put(new IntCouple(3, 6), ViewCellValue.TWO);
+        expectedCells.put(new IntCouple(4, 6), ViewCellValue.TWO);
+        expectedCells.put(new IntCouple(5, 6), ViewCellValue.TWO);
+        expectedCells.put(new IntCouple(5, 5), ViewCellValue.ONE);
+        expectedCells.put(new IntCouple(5, 4), ViewCellValue.TWO);
+        expectedCells.put(new IntCouple(4, 4), ViewCellValue.TWO);
 
         fieldLogic.pressCell(new IntCouple(4, 5), true);
 
@@ -80,7 +80,7 @@ public class FieldLogicTest {
 
     @Test
     public void testOneCell() {
-        expectedCells.put(new IntCouple(1, 2), ViewCellValues.ONE);
+        expectedCells.put(new IntCouple(1, 2), ViewCellValue.ONE);
 
         fieldLogic.pressCell(new IntCouple(1, 2), true);
 
@@ -89,7 +89,7 @@ public class FieldLogicTest {
 
     @Test
     public void testThreeCell() {
-        expectedCells.put(new IntCouple(3, 4), ViewCellValues.THREE);
+        expectedCells.put(new IntCouple(3, 4), ViewCellValue.THREE);
 
         fieldLogic.pressCell(new IntCouple(3, 4), true);
 
@@ -98,14 +98,14 @@ public class FieldLogicTest {
 
     @Test
     public void testMine() {
-        expectedCells.put(new IntCouple(0, 1), ViewCellValues.MINE);
-        expectedCells.put(new IntCouple(2, 4), ViewCellValues.MINE);
-        expectedCells.put(new IntCouple(3, 3), ViewCellValues.MINE);
-        expectedCells.put(new IntCouple(3, 7), ViewCellValues.MINE);
-        expectedCells.put(new IntCouple(4, 3), ViewCellValues.MINE);
-        expectedCells.put(new IntCouple(4, 7), ViewCellValues.MINE);
-        expectedCells.put(new IntCouple(6, 3), ViewCellValues.MINE);
-        expectedCells.put(new IntCouple(6, 6), ViewCellValues.MINE);
+        expectedCells.put(new IntCouple(0, 1), ViewCellValue.MINE);
+        expectedCells.put(new IntCouple(2, 4), ViewCellValue.MINE);
+        expectedCells.put(new IntCouple(3, 3), ViewCellValue.MINE);
+        expectedCells.put(new IntCouple(3, 7), ViewCellValue.MINE);
+        expectedCells.put(new IntCouple(4, 3), ViewCellValue.MINE);
+        expectedCells.put(new IntCouple(4, 7), ViewCellValue.MINE);
+        expectedCells.put(new IntCouple(6, 3), ViewCellValue.MINE);
+        expectedCells.put(new IntCouple(6, 6), ViewCellValue.MINE);
 
         fieldLogic.pressCell(new IntCouple(2, 4), true);
 
@@ -114,50 +114,51 @@ public class FieldLogicTest {
 
     @Test
     public void testVictory() {
+        InOrder inOrder = inOrder(fieldView);
         int[][] smallField = {
                 {MINE, ONE, ZERO},
                 {TWO, TWO, ONE},
                 {ONE, MINE, ONE}
         };
         fieldLogic = new FieldLogic(smallField, fieldView);
-        expectedCells.put(new IntCouple(0, 2), ViewCellValues.ZERO);
-        expectedCells.put(new IntCouple(0, 1), ViewCellValues.ONE);
-        expectedCells.put(new IntCouple(1, 1), ViewCellValues.TWO);
-        expectedCells.put(new IntCouple(1, 2), ViewCellValues.ONE);
+        expectedCells.put(new IntCouple(0, 2), ViewCellValue.ZERO);
+        expectedCells.put(new IntCouple(0, 1), ViewCellValue.ONE);
+        expectedCells.put(new IntCouple(1, 1), ViewCellValue.TWO);
+        expectedCells.put(new IntCouple(1, 2), ViewCellValue.ONE);
         fieldLogic.pressCell(new IntCouple(0, 2), true);
-        verify(fieldView).updateCells(expectedCells, GameStatus.CONTINUED);
+        inOrder.verify(fieldView).updateCells(expectedCells, GameStatus.CONTINUED);
 
         expectedCells.clear();
-        expectedCells.put(new IntCouple(2, 2), ViewCellValues.ONE);
+        expectedCells.put(new IntCouple(2, 2), ViewCellValue.ONE);
         fieldLogic.pressCell(new IntCouple(2, 2), true);
-        verify(fieldView).updateCells(expectedCells, GameStatus.CONTINUED);
+        inOrder.verify(fieldView).updateCells(expectedCells, GameStatus.CONTINUED);
 
         expectedCells.clear();
-        expectedCells.put(new IntCouple(2, 1), ViewCellValues.FLAG);
+        expectedCells.put(new IntCouple(2, 1), ViewCellValue.FLAG);
         fieldLogic.pressCell(new IntCouple(2, 1), false);
-        verify(fieldView).updateCells(expectedCells, GameStatus.CONTINUED);
+        inOrder.verify(fieldView).updateCells(expectedCells, GameStatus.CONTINUED);
 
         expectedCells.clear();
-        expectedCells.put(new IntCouple(2, 0), ViewCellValues.ONE);
+        expectedCells.put(new IntCouple(2, 0), ViewCellValue.ONE);
         fieldLogic.pressCell(new IntCouple(2, 0), true);
-        verify(fieldView).updateCells(expectedCells, GameStatus.CONTINUED);
+        inOrder.verify(fieldView).updateCells(expectedCells, GameStatus.CONTINUED);
 
         expectedCells.clear();
-        expectedCells.put(new IntCouple(1, 0), ViewCellValues.TWO);
+        expectedCells.put(new IntCouple(1, 0), ViewCellValue.TWO);
         fieldLogic.pressCell(new IntCouple(1, 0), true);
-        verify(fieldView).updateCells(expectedCells, GameStatus.CONTINUED);
+        inOrder.verify(fieldView).updateCells(expectedCells, GameStatus.CONTINUED);
 
         expectedCells.clear();
-        expectedCells.put(new IntCouple(0, 0), ViewCellValues.FLAG);
+        expectedCells.put(new IntCouple(0, 0), ViewCellValue.FLAG);
         fieldLogic.pressCell(new IntCouple(0, 0), false);
-        verify(fieldView).updateCells(expectedCells, GameStatus.VICTORY);
+        inOrder.verify(fieldView).updateCells(expectedCells, GameStatus.VICTORY);
     }
 
     @Test
     public void testTurnFlagOnOff() {
         InOrder inOrder = inOrder(fieldView);
         IntCouple cell = new IntCouple(0, 0);
-        expectedCells.put(cell, ViewCellValues.FLAG);
+        expectedCells.put(cell, ViewCellValue.FLAG);
         fieldLogic.pressCell(cell, false);
         inOrder.verify(fieldView).updateCells(expectedCells, GameStatus.CONTINUED);
 
@@ -165,7 +166,7 @@ public class FieldLogicTest {
         inOrder.verify(fieldView, times(0)).updateCells(any(), any());
 
         expectedCells.clear();
-        expectedCells.put(new IntCouple(0, 0), ViewCellValues.UNTOUCHED);
+        expectedCells.put(new IntCouple(0, 0), ViewCellValue.UNTOUCHED);
         fieldLogic.pressCell(new IntCouple(0, 0), false);
         inOrder.verify(fieldView).updateCells(expectedCells, GameStatus.CONTINUED);
     }
@@ -173,24 +174,24 @@ public class FieldLogicTest {
     @Test
     public void testDefeatWithFlags() {
         InOrder inOrder = inOrder(fieldView);
-        expectedCells.put(new IntCouple(0, 0), ViewCellValues.FLAG);
+        expectedCells.put(new IntCouple(0, 0), ViewCellValue.FLAG);
         fieldLogic.pressCell(new IntCouple(0, 0), false);
         inOrder.verify(fieldView).updateCells(expectedCells, GameStatus.CONTINUED);
 
         expectedCells.clear();
-        expectedCells.put(new IntCouple(0, 1), ViewCellValues.FLAG);
+        expectedCells.put(new IntCouple(0, 1), ViewCellValue.FLAG);
         fieldLogic.pressCell(new IntCouple(0, 1), false);
         inOrder.verify(fieldView).updateCells(expectedCells, GameStatus.CONTINUED);
 
         expectedCells.clear();
-        expectedCells.put(new IntCouple(0, 0), ViewCellValues.NOMINE);
-        expectedCells.put(new IntCouple(2, 4), ViewCellValues.MINE);
-        expectedCells.put(new IntCouple(3, 3), ViewCellValues.MINE);
-        expectedCells.put(new IntCouple(3, 7), ViewCellValues.MINE);
-        expectedCells.put(new IntCouple(4, 3), ViewCellValues.MINE);
-        expectedCells.put(new IntCouple(4, 7), ViewCellValues.MINE);
-        expectedCells.put(new IntCouple(6, 3), ViewCellValues.MINE);
-        expectedCells.put(new IntCouple(6, 6), ViewCellValues.MINE);
+        expectedCells.put(new IntCouple(0, 0), ViewCellValue.NOMINE);
+        expectedCells.put(new IntCouple(2, 4), ViewCellValue.MINE);
+        expectedCells.put(new IntCouple(3, 3), ViewCellValue.MINE);
+        expectedCells.put(new IntCouple(3, 7), ViewCellValue.MINE);
+        expectedCells.put(new IntCouple(4, 3), ViewCellValue.MINE);
+        expectedCells.put(new IntCouple(4, 7), ViewCellValue.MINE);
+        expectedCells.put(new IntCouple(6, 3), ViewCellValue.MINE);
+        expectedCells.put(new IntCouple(6, 6), ViewCellValue.MINE);
 
         fieldLogic.pressCell(new IntCouple(2, 4), true);
 
@@ -199,55 +200,55 @@ public class FieldLogicTest {
 
     @Test
     public void testClickAround_1() {
-        expectedCells.put(new IntCouple(7, 6), ViewCellValues.ONE);
+        expectedCells.put(new IntCouple(7, 6), ViewCellValue.ONE);
         fieldLogic.pressCell(new IntCouple(7, 6), true);
         verify(fieldView).updateCells(expectedCells, GameStatus.CONTINUED);
 
         expectedCells.clear();
-        expectedCells.put(new IntCouple(6, 6), ViewCellValues.FLAG);
+        expectedCells.put(new IntCouple(6, 6), ViewCellValue.FLAG);
         fieldLogic.pressCell(new IntCouple(6, 6), false);
         verify(fieldView).updateCells(expectedCells, GameStatus.CONTINUED);
 
         expectedCells.clear();
-        expectedCells.put(new IntCouple(7, 5), ViewCellValues.ONE);
-        expectedCells.put(new IntCouple(6, 5), ViewCellValues.ONE);
-        expectedCells.put(new IntCouple(6, 7), ViewCellValues.ONE);
-        expectedCells.put(new IntCouple(7, 7), ViewCellValues.ONE);
+        expectedCells.put(new IntCouple(7, 5), ViewCellValue.ONE);
+        expectedCells.put(new IntCouple(6, 5), ViewCellValue.ONE);
+        expectedCells.put(new IntCouple(6, 7), ViewCellValue.ONE);
+        expectedCells.put(new IntCouple(7, 7), ViewCellValue.ONE);
         fieldLogic.pressCell(new IntCouple(7, 6), true);
         verify(fieldView).updateCells(expectedCells, GameStatus.CONTINUED);
     }
 
     @Test
     public void testClickAround_2() {
-        expectedCells.put(new IntCouple(0, 2), ViewCellValues.ONE);
+        expectedCells.put(new IntCouple(0, 2), ViewCellValue.ONE);
         fieldLogic.pressCell(new IntCouple(0, 2), true);
         verify(fieldView).updateCells(expectedCells, GameStatus.CONTINUED);
 
         expectedCells.clear();
-        expectedCells.put(new IntCouple(0, 1), ViewCellValues.FLAG);
+        expectedCells.put(new IntCouple(0, 1), ViewCellValue.FLAG);
         fieldLogic.pressCell(new IntCouple(0, 1), false);
         verify(fieldView).updateCells(expectedCells, GameStatus.CONTINUED);
 
         expectedCells.clear();
-        expectedCells.put(new IntCouple(1, 1), ViewCellValues.ONE);
-        expectedCells.put(new IntCouple(0, 2), ViewCellValues.ONE);
-        expectedCells.put(new IntCouple(1, 2), ViewCellValues.ONE);
-        expectedCells.put(new IntCouple(1, 3), ViewCellValues.ONE);
-        expectedCells.put(new IntCouple(1, 4), ViewCellValues.ONE);
-        expectedCells.put(new IntCouple(1, 5), ViewCellValues.ONE);
-        expectedCells.put(new IntCouple(2, 5), ViewCellValues.ONE);
-        expectedCells.put(new IntCouple(2, 6), ViewCellValues.ONE);
-        expectedCells.put(new IntCouple(2, 7), ViewCellValues.ONE);
-        expectedCells.put(new IntCouple(2, 8), ViewCellValues.ONE);
-        expectedCells.put(new IntCouple(0, 3), ViewCellValues.ZERO);
-        expectedCells.put(new IntCouple(0, 4), ViewCellValues.ZERO);
-        expectedCells.put(new IntCouple(0, 5), ViewCellValues.ZERO);
-        expectedCells.put(new IntCouple(0, 6), ViewCellValues.ZERO);
-        expectedCells.put(new IntCouple(0, 7), ViewCellValues.ZERO);
-        expectedCells.put(new IntCouple(0, 8), ViewCellValues.ZERO);
-        expectedCells.put(new IntCouple(1, 6), ViewCellValues.ZERO);
-        expectedCells.put(new IntCouple(1, 7), ViewCellValues.ZERO);
-        expectedCells.put(new IntCouple(1, 8), ViewCellValues.ZERO);
+        expectedCells.put(new IntCouple(1, 1), ViewCellValue.ONE);
+        expectedCells.put(new IntCouple(0, 2), ViewCellValue.ONE);
+        expectedCells.put(new IntCouple(1, 2), ViewCellValue.ONE);
+        expectedCells.put(new IntCouple(1, 3), ViewCellValue.ONE);
+        expectedCells.put(new IntCouple(1, 4), ViewCellValue.ONE);
+        expectedCells.put(new IntCouple(1, 5), ViewCellValue.ONE);
+        expectedCells.put(new IntCouple(2, 5), ViewCellValue.ONE);
+        expectedCells.put(new IntCouple(2, 6), ViewCellValue.ONE);
+        expectedCells.put(new IntCouple(2, 7), ViewCellValue.ONE);
+        expectedCells.put(new IntCouple(2, 8), ViewCellValue.ONE);
+        expectedCells.put(new IntCouple(0, 3), ViewCellValue.ZERO);
+        expectedCells.put(new IntCouple(0, 4), ViewCellValue.ZERO);
+        expectedCells.put(new IntCouple(0, 5), ViewCellValue.ZERO);
+        expectedCells.put(new IntCouple(0, 6), ViewCellValue.ZERO);
+        expectedCells.put(new IntCouple(0, 7), ViewCellValue.ZERO);
+        expectedCells.put(new IntCouple(0, 8), ViewCellValue.ZERO);
+        expectedCells.put(new IntCouple(1, 6), ViewCellValue.ZERO);
+        expectedCells.put(new IntCouple(1, 7), ViewCellValue.ZERO);
+        expectedCells.put(new IntCouple(1, 8), ViewCellValue.ZERO);
         fieldLogic.pressCell(new IntCouple(0, 2), true);
         verify(fieldView).updateCells(expectedCells, GameStatus.CONTINUED);
     }
@@ -255,7 +256,7 @@ public class FieldLogicTest {
     @Test
     public void testClickAroundNothing() {
         InOrder inOrder = inOrder(fieldView);
-        expectedCells.put(new IntCouple(0, 2), ViewCellValues.ONE);
+        expectedCells.put(new IntCouple(0, 2), ViewCellValue.ONE);
         fieldLogic.pressCell(new IntCouple(0, 2), true);
         inOrder.verify(fieldView).updateCells(expectedCells, GameStatus.CONTINUED);
 
@@ -266,28 +267,28 @@ public class FieldLogicTest {
     @Test
     public void testClickAroundWrong() {
         InOrder inOrder = inOrder(fieldView);
-        expectedCells.put(new IntCouple(7, 6), ViewCellValues.ONE);
+        expectedCells.put(new IntCouple(7, 6), ViewCellValue.ONE);
         fieldLogic.pressCell(new IntCouple(7, 6), true);
         inOrder.verify(fieldView).updateCells(expectedCells, GameStatus.CONTINUED);
 
         expectedCells.clear();
-        expectedCells.put(new IntCouple(7, 5), ViewCellValues.FLAG);
+        expectedCells.put(new IntCouple(7, 5), ViewCellValue.FLAG);
         fieldLogic.pressCell(new IntCouple(7, 5), false);
         inOrder.verify(fieldView).updateCells(expectedCells, GameStatus.CONTINUED);
 
         expectedCells.clear();
-        expectedCells.put(new IntCouple(0, 1), ViewCellValues.MINE);
-        expectedCells.put(new IntCouple(2, 4), ViewCellValues.MINE);
-        expectedCells.put(new IntCouple(3, 3), ViewCellValues.MINE);
-        expectedCells.put(new IntCouple(3, 7), ViewCellValues.MINE);
-        expectedCells.put(new IntCouple(4, 3), ViewCellValues.MINE);
-        expectedCells.put(new IntCouple(4, 7), ViewCellValues.MINE);
-        expectedCells.put(new IntCouple(6, 3), ViewCellValues.MINE);
-        expectedCells.put(new IntCouple(6, 6), ViewCellValues.MINE);
-        expectedCells.put(new IntCouple(7, 5), ViewCellValues.NOMINE);
-        expectedCells.put(new IntCouple(6, 5), ViewCellValues.ONE);
-        expectedCells.put(new IntCouple(6, 7), ViewCellValues.ONE);
-        expectedCells.put(new IntCouple(7, 7), ViewCellValues.ONE);
+        expectedCells.put(new IntCouple(0, 1), ViewCellValue.MINE);
+        expectedCells.put(new IntCouple(2, 4), ViewCellValue.MINE);
+        expectedCells.put(new IntCouple(3, 3), ViewCellValue.MINE);
+        expectedCells.put(new IntCouple(3, 7), ViewCellValue.MINE);
+        expectedCells.put(new IntCouple(4, 3), ViewCellValue.MINE);
+        expectedCells.put(new IntCouple(4, 7), ViewCellValue.MINE);
+        expectedCells.put(new IntCouple(6, 3), ViewCellValue.MINE);
+        expectedCells.put(new IntCouple(6, 6), ViewCellValue.MINE);
+        expectedCells.put(new IntCouple(7, 5), ViewCellValue.NOMINE);
+        expectedCells.put(new IntCouple(6, 5), ViewCellValue.ONE);
+        expectedCells.put(new IntCouple(6, 7), ViewCellValue.ONE);
+        expectedCells.put(new IntCouple(7, 7), ViewCellValue.ONE);
         fieldLogic.pressCell(new IntCouple(7, 6), true);
 
         inOrder.verify(fieldView).updateCells(expectedCells, GameStatus.DEFEAT);

@@ -1,10 +1,10 @@
 package ru.cft.focusstart.ryazantsev.logic;
 
 
-public enum ViewCellValues {
+public enum ViewCellValue {
     UNTOUCHED, ZERO, ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, FLAG, MINE, NOMINE;
 
-    public static ViewCellValues getValueOfNumber(int numberValue) {
+    public static ViewCellValue getValueOfNumber(int numberValue) {
         switch (numberValue) {
             case CellValues.ZERO:
                 return ZERO;
