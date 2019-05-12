@@ -1,17 +1,17 @@
 package ru.cft.focusstart.ryazantsev.logic;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.InOrder;
-import org.mockito.Mockito;
-import ru.cft.focusstart.ryazantsev.view.FieldView;
+import ru.cft.focusstart.ryazantsev.util.FieldAnswer;
+import ru.cft.focusstart.ryazantsev.util.GameStatus;
+import ru.cft.focusstart.ryazantsev.util.IntCouple;
+import ru.cft.focusstart.ryazantsev.util.ViewCellValue;
 
 import java.util.HashMap;
 import java.util.Map;
 
-
-import static org.mockito.Mockito.*;
-import static ru.cft.focusstart.ryazantsev.logic.CellValues.*;
+import static ru.cft.focusstart.ryazantsev.util.CellValues.*;
 
 public class FieldLogicTest {
     private int[][] field = {
@@ -25,13 +25,12 @@ public class FieldLogicTest {
             {ZERO, ZERO, ONE, ONE, ONE, ONE, ONE, ONE, ZERO}
     };
     private FieldLogic fieldLogic;
-    private FieldView fieldView;
     private Map<IntCouple, ViewCellValue> expectedCells;
+    private static final int minesCount = 8;
 
     @Before
     public void initViewField() {
-        fieldView = mock(FieldView.class);
-        fieldLogic = new FieldLogic(field, fieldView);
+        fieldLogic = new FieldLogic(field, minesCount);
         expectedCells = new HashMap<>();
     }
 
@@ -56,9 +55,9 @@ public class FieldLogicTest {
         expectedCells.put(new IntCouple(1, 7), ViewCellValue.ZERO);
         expectedCells.put(new IntCouple(1, 8), ViewCellValue.ZERO);
 
-        fieldLogic.pressCell(new IntCouple(0, 7), true);
-
-        verify(fieldView).updateCells(expectedCells, GameStatus.CONTINUED);
+        FieldAnswer actualAnswer = fieldLogic.pressCell(new IntCouple(0, 7), true);
+        FieldAnswer expectedAnswer = new FieldAnswer(expectedCells, GameStatus.CONTINUED, minesCount);
+        Assert.assertEquals(expectedAnswer, actualAnswer);
     }
 
     @Test
@@ -73,27 +72,27 @@ public class FieldLogicTest {
         expectedCells.put(new IntCouple(5, 4), ViewCellValue.TWO);
         expectedCells.put(new IntCouple(4, 4), ViewCellValue.TWO);
 
-        fieldLogic.pressCell(new IntCouple(4, 5), true);
-
-        verify(fieldView).updateCells(expectedCells, GameStatus.CONTINUED);
+        FieldAnswer actualAnswer = fieldLogic.pressCell(new IntCouple(4, 5), true);
+        FieldAnswer expectedAnswer = new FieldAnswer(expectedCells, GameStatus.CONTINUED, minesCount);
+        Assert.assertEquals(expectedAnswer, actualAnswer);
     }
 
     @Test
     public void testOneCell() {
         expectedCells.put(new IntCouple(1, 2), ViewCellValue.ONE);
 
-        fieldLogic.pressCell(new IntCouple(1, 2), true);
-
-        verify(fieldView).updateCells(expectedCells, GameStatus.CONTINUED);
+        FieldAnswer actualAnswer = fieldLogic.pressCell(new IntCouple(1, 2), true);
+        FieldAnswer expectedAnswer = new FieldAnswer(expectedCells, GameStatus.CONTINUED, minesCount);
+        Assert.assertEquals(expectedAnswer, actualAnswer);
     }
 
     @Test
     public void testThreeCell() {
         expectedCells.put(new IntCouple(3, 4), ViewCellValue.THREE);
 
-        fieldLogic.pressCell(new IntCouple(3, 4), true);
-
-        verify(fieldView).updateCells(expectedCells, GameStatus.CONTINUED);
+        FieldAnswer actualAnswer = fieldLogic.pressCell(new IntCouple(3, 4), true);
+        FieldAnswer expectedAnswer = new FieldAnswer(expectedCells, GameStatus.CONTINUED, minesCount);
+        Assert.assertEquals(expectedAnswer, actualAnswer);
     }
 
     @Test
@@ -107,81 +106,93 @@ public class FieldLogicTest {
         expectedCells.put(new IntCouple(6, 3), ViewCellValue.MINE);
         expectedCells.put(new IntCouple(6, 6), ViewCellValue.MINE);
 
-        fieldLogic.pressCell(new IntCouple(2, 4), true);
-
-        verify(fieldView).updateCells(expectedCells, GameStatus.DEFEAT);
+        FieldAnswer actualAnswer = fieldLogic.pressCell(new IntCouple(2, 4), true);
+        FieldAnswer expectedAnswer = new FieldAnswer(expectedCells, GameStatus.DEFEAT, minesCount);
+        Assert.assertEquals(expectedAnswer, actualAnswer);
     }
 
     @Test
     public void testVictory() {
-        InOrder inOrder = inOrder(fieldView);
         int[][] smallField = {
                 {MINE, ONE, ZERO},
                 {TWO, TWO, ONE},
                 {ONE, MINE, ONE}
         };
-        fieldLogic = new FieldLogic(smallField, fieldView);
+        int minesCount = 2;
+        fieldLogic = new FieldLogic(smallField, minesCount);
         expectedCells.put(new IntCouple(0, 2), ViewCellValue.ZERO);
         expectedCells.put(new IntCouple(0, 1), ViewCellValue.ONE);
         expectedCells.put(new IntCouple(1, 1), ViewCellValue.TWO);
         expectedCells.put(new IntCouple(1, 2), ViewCellValue.ONE);
-        fieldLogic.pressCell(new IntCouple(0, 2), true);
-        inOrder.verify(fieldView).updateCells(expectedCells, GameStatus.CONTINUED);
+
+        FieldAnswer actualAnswer = fieldLogic.pressCell(new IntCouple(0, 2), true);
+        FieldAnswer expectedAnswer = new FieldAnswer(expectedCells, GameStatus.CONTINUED, minesCount);
+        Assert.assertEquals(expectedAnswer, actualAnswer);
 
         expectedCells.clear();
         expectedCells.put(new IntCouple(2, 2), ViewCellValue.ONE);
-        fieldLogic.pressCell(new IntCouple(2, 2), true);
-        inOrder.verify(fieldView).updateCells(expectedCells, GameStatus.CONTINUED);
+
+        actualAnswer = fieldLogic.pressCell(new IntCouple(2, 2), true);
+        expectedAnswer = new FieldAnswer(expectedCells, GameStatus.CONTINUED, minesCount);
+        Assert.assertEquals(expectedAnswer, actualAnswer);
 
         expectedCells.clear();
         expectedCells.put(new IntCouple(2, 1), ViewCellValue.FLAG);
-        fieldLogic.pressCell(new IntCouple(2, 1), false);
-        inOrder.verify(fieldView).updateCells(expectedCells, GameStatus.CONTINUED);
+
+        actualAnswer = fieldLogic.pressCell(new IntCouple(2, 1), false);
+        expectedAnswer = new FieldAnswer(expectedCells, GameStatus.CONTINUED, minesCount - 1);
+        Assert.assertEquals(expectedAnswer, actualAnswer);
 
         expectedCells.clear();
         expectedCells.put(new IntCouple(2, 0), ViewCellValue.ONE);
-        fieldLogic.pressCell(new IntCouple(2, 0), true);
-        inOrder.verify(fieldView).updateCells(expectedCells, GameStatus.CONTINUED);
+        actualAnswer = fieldLogic.pressCell(new IntCouple(2, 0), true);
+        expectedAnswer = new FieldAnswer(expectedCells, GameStatus.CONTINUED, minesCount - 1);
+        Assert.assertEquals(expectedAnswer, actualAnswer);
 
         expectedCells.clear();
         expectedCells.put(new IntCouple(1, 0), ViewCellValue.TWO);
-        fieldLogic.pressCell(new IntCouple(1, 0), true);
-        inOrder.verify(fieldView).updateCells(expectedCells, GameStatus.CONTINUED);
+        actualAnswer = fieldLogic.pressCell(new IntCouple(1, 0), true);
+        expectedAnswer = new FieldAnswer(expectedCells, GameStatus.CONTINUED, minesCount - 1);
+        Assert.assertEquals(expectedAnswer, actualAnswer);
 
         expectedCells.clear();
         expectedCells.put(new IntCouple(0, 0), ViewCellValue.FLAG);
-        fieldLogic.pressCell(new IntCouple(0, 0), false);
-        inOrder.verify(fieldView).updateCells(expectedCells, GameStatus.VICTORY);
+        actualAnswer = fieldLogic.pressCell(new IntCouple(0, 0), false);
+        expectedAnswer = new FieldAnswer(expectedCells, GameStatus.VICTORY, minesCount - 2);
+        Assert.assertEquals(expectedAnswer, actualAnswer);
     }
 
     @Test
     public void testTurnFlagOnOff() {
-        InOrder inOrder = inOrder(fieldView);
         IntCouple cell = new IntCouple(0, 0);
         expectedCells.put(cell, ViewCellValue.FLAG);
-        fieldLogic.pressCell(cell, false);
-        inOrder.verify(fieldView).updateCells(expectedCells, GameStatus.CONTINUED);
-
-        fieldLogic.pressCell(cell, true);
-        inOrder.verify(fieldView, times(0)).updateCells(any(), any());
+        FieldAnswer actualAnswer = fieldLogic.pressCell(cell, false);
+        FieldAnswer expectedAnswer = new FieldAnswer(expectedCells, GameStatus.CONTINUED, minesCount - 1);
+        Assert.assertEquals(expectedAnswer, actualAnswer);
 
         expectedCells.clear();
+        actualAnswer = fieldLogic.pressCell(cell, true);
+        expectedAnswer = new FieldAnswer(expectedCells, GameStatus.CONTINUED, minesCount - 1);
+        Assert.assertEquals(expectedAnswer, actualAnswer);
+
         expectedCells.put(new IntCouple(0, 0), ViewCellValue.UNTOUCHED);
-        fieldLogic.pressCell(new IntCouple(0, 0), false);
-        inOrder.verify(fieldView).updateCells(expectedCells, GameStatus.CONTINUED);
+        actualAnswer = fieldLogic.pressCell(cell, false);
+        expectedAnswer = new FieldAnswer(expectedCells, GameStatus.CONTINUED, minesCount);
+        Assert.assertEquals(expectedAnswer, actualAnswer);
     }
 
     @Test
     public void testDefeatWithFlags() {
-        InOrder inOrder = inOrder(fieldView);
         expectedCells.put(new IntCouple(0, 0), ViewCellValue.FLAG);
-        fieldLogic.pressCell(new IntCouple(0, 0), false);
-        inOrder.verify(fieldView).updateCells(expectedCells, GameStatus.CONTINUED);
+        FieldAnswer actualAnswer = fieldLogic.pressCell(new IntCouple(0, 0), false);
+        FieldAnswer expectedAnswer = new FieldAnswer(expectedCells, GameStatus.CONTINUED, minesCount - 1);
+        Assert.assertEquals(expectedAnswer, actualAnswer);
 
         expectedCells.clear();
         expectedCells.put(new IntCouple(0, 1), ViewCellValue.FLAG);
-        fieldLogic.pressCell(new IntCouple(0, 1), false);
-        inOrder.verify(fieldView).updateCells(expectedCells, GameStatus.CONTINUED);
+        actualAnswer = fieldLogic.pressCell(new IntCouple(0, 1), false);
+        expectedAnswer = new FieldAnswer(expectedCells, GameStatus.CONTINUED, minesCount - 2);
+        Assert.assertEquals(expectedAnswer, actualAnswer);
 
         expectedCells.clear();
         expectedCells.put(new IntCouple(0, 0), ViewCellValue.NOMINE);
@@ -193,88 +204,60 @@ public class FieldLogicTest {
         expectedCells.put(new IntCouple(6, 3), ViewCellValue.MINE);
         expectedCells.put(new IntCouple(6, 6), ViewCellValue.MINE);
 
-        fieldLogic.pressCell(new IntCouple(2, 4), true);
-
-        inOrder.verify(fieldView).updateCells(expectedCells, GameStatus.DEFEAT);
+        actualAnswer = fieldLogic.pressCell(new IntCouple(2, 4), true);
+        expectedAnswer = new FieldAnswer(expectedCells, GameStatus.DEFEAT, minesCount - 2);
+        Assert.assertEquals(expectedAnswer, actualAnswer);
     }
 
     @Test
-    public void testClickAround_1() {
+    public void testClickAround() {
         expectedCells.put(new IntCouple(7, 6), ViewCellValue.ONE);
-        fieldLogic.pressCell(new IntCouple(7, 6), true);
-        verify(fieldView).updateCells(expectedCells, GameStatus.CONTINUED);
+        FieldAnswer actualAnswer = fieldLogic.pressCell(new IntCouple(7, 6), true);
+        FieldAnswer expectedAnswer = new FieldAnswer(expectedCells, GameStatus.CONTINUED, minesCount);
+        Assert.assertEquals(expectedAnswer, actualAnswer);
 
         expectedCells.clear();
         expectedCells.put(new IntCouple(6, 6), ViewCellValue.FLAG);
-        fieldLogic.pressCell(new IntCouple(6, 6), false);
-        verify(fieldView).updateCells(expectedCells, GameStatus.CONTINUED);
+        actualAnswer = fieldLogic.pressCell(new IntCouple(6, 6), false);
+        expectedAnswer = new FieldAnswer(expectedCells, GameStatus.CONTINUED, minesCount - 1);
+        Assert.assertEquals(expectedAnswer, actualAnswer);
 
         expectedCells.clear();
         expectedCells.put(new IntCouple(7, 5), ViewCellValue.ONE);
         expectedCells.put(new IntCouple(6, 5), ViewCellValue.ONE);
         expectedCells.put(new IntCouple(6, 7), ViewCellValue.ONE);
         expectedCells.put(new IntCouple(7, 7), ViewCellValue.ONE);
-        fieldLogic.pressCell(new IntCouple(7, 6), true);
-        verify(fieldView).updateCells(expectedCells, GameStatus.CONTINUED);
-    }
-
-    @Test
-    public void testClickAround_2() {
-        expectedCells.put(new IntCouple(0, 2), ViewCellValue.ONE);
-        fieldLogic.pressCell(new IntCouple(0, 2), true);
-        verify(fieldView).updateCells(expectedCells, GameStatus.CONTINUED);
-
-        expectedCells.clear();
-        expectedCells.put(new IntCouple(0, 1), ViewCellValue.FLAG);
-        fieldLogic.pressCell(new IntCouple(0, 1), false);
-        verify(fieldView).updateCells(expectedCells, GameStatus.CONTINUED);
-
-        expectedCells.clear();
-        expectedCells.put(new IntCouple(1, 1), ViewCellValue.ONE);
-        expectedCells.put(new IntCouple(0, 2), ViewCellValue.ONE);
-        expectedCells.put(new IntCouple(1, 2), ViewCellValue.ONE);
-        expectedCells.put(new IntCouple(1, 3), ViewCellValue.ONE);
-        expectedCells.put(new IntCouple(1, 4), ViewCellValue.ONE);
-        expectedCells.put(new IntCouple(1, 5), ViewCellValue.ONE);
-        expectedCells.put(new IntCouple(2, 5), ViewCellValue.ONE);
-        expectedCells.put(new IntCouple(2, 6), ViewCellValue.ONE);
-        expectedCells.put(new IntCouple(2, 7), ViewCellValue.ONE);
-        expectedCells.put(new IntCouple(2, 8), ViewCellValue.ONE);
-        expectedCells.put(new IntCouple(0, 3), ViewCellValue.ZERO);
-        expectedCells.put(new IntCouple(0, 4), ViewCellValue.ZERO);
-        expectedCells.put(new IntCouple(0, 5), ViewCellValue.ZERO);
-        expectedCells.put(new IntCouple(0, 6), ViewCellValue.ZERO);
-        expectedCells.put(new IntCouple(0, 7), ViewCellValue.ZERO);
-        expectedCells.put(new IntCouple(0, 8), ViewCellValue.ZERO);
-        expectedCells.put(new IntCouple(1, 6), ViewCellValue.ZERO);
-        expectedCells.put(new IntCouple(1, 7), ViewCellValue.ZERO);
-        expectedCells.put(new IntCouple(1, 8), ViewCellValue.ZERO);
-        fieldLogic.pressCell(new IntCouple(0, 2), true);
-        verify(fieldView).updateCells(expectedCells, GameStatus.CONTINUED);
+        actualAnswer = fieldLogic.pressCell(new IntCouple(7, 6), true);
+        expectedAnswer = new FieldAnswer(expectedCells, GameStatus.CONTINUED, minesCount - 1);
+        Assert.assertEquals(expectedAnswer, actualAnswer);
     }
 
     @Test
     public void testClickAroundNothing() {
-        InOrder inOrder = inOrder(fieldView);
         expectedCells.put(new IntCouple(0, 2), ViewCellValue.ONE);
-        fieldLogic.pressCell(new IntCouple(0, 2), true);
-        inOrder.verify(fieldView).updateCells(expectedCells, GameStatus.CONTINUED);
+        FieldAnswer actualAnswer = fieldLogic.pressCell(new IntCouple(0, 2), true);
+        FieldAnswer expectedAnswer = new FieldAnswer(expectedCells, GameStatus.CONTINUED, minesCount);
+        Assert.assertEquals(expectedAnswer, actualAnswer);
 
+        expectedCells.clear();
         fieldLogic.pressCell(new IntCouple(0, 2), true);
-        inOrder.verify(fieldView, times(0)).updateCells(any(), any());
+        actualAnswer = fieldLogic.pressCell(new IntCouple(0, 2), true);
+        expectedAnswer = new FieldAnswer(expectedCells, GameStatus.CONTINUED, minesCount);
+        Assert.assertEquals(expectedAnswer, actualAnswer);
     }
 
     @Test
     public void testClickAroundWrong() {
-        InOrder inOrder = inOrder(fieldView);
         expectedCells.put(new IntCouple(7, 6), ViewCellValue.ONE);
-        fieldLogic.pressCell(new IntCouple(7, 6), true);
-        inOrder.verify(fieldView).updateCells(expectedCells, GameStatus.CONTINUED);
+        FieldAnswer actualAnswer = fieldLogic.pressCell(new IntCouple(7, 6), true);
+        FieldAnswer expectedAnswer = new FieldAnswer(expectedCells, GameStatus.CONTINUED, minesCount);
+        Assert.assertEquals(expectedAnswer, actualAnswer);
 
         expectedCells.clear();
         expectedCells.put(new IntCouple(7, 5), ViewCellValue.FLAG);
-        fieldLogic.pressCell(new IntCouple(7, 5), false);
-        inOrder.verify(fieldView).updateCells(expectedCells, GameStatus.CONTINUED);
+        actualAnswer = fieldLogic.pressCell(new IntCouple(7, 5), false);
+        expectedAnswer = new FieldAnswer(expectedCells, GameStatus.CONTINUED, minesCount - 1);
+        Assert.assertEquals(expectedAnswer, actualAnswer);
 
         expectedCells.clear();
         expectedCells.put(new IntCouple(0, 1), ViewCellValue.MINE);
@@ -289,8 +272,9 @@ public class FieldLogicTest {
         expectedCells.put(new IntCouple(6, 5), ViewCellValue.ONE);
         expectedCells.put(new IntCouple(6, 7), ViewCellValue.ONE);
         expectedCells.put(new IntCouple(7, 7), ViewCellValue.ONE);
-        fieldLogic.pressCell(new IntCouple(7, 6), true);
 
-        inOrder.verify(fieldView).updateCells(expectedCells, GameStatus.DEFEAT);
+        actualAnswer = fieldLogic.pressCell(new IntCouple(7, 6), true);
+        expectedAnswer = new FieldAnswer(expectedCells, GameStatus.DEFEAT, minesCount - 1);
+        Assert.assertEquals(expectedAnswer, actualAnswer);
     }
 }

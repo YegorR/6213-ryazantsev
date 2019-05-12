@@ -1,4 +1,4 @@
-package ru.cft.focusstart.ryazantsev.logic;
+package ru.cft.focusstart.ryazantsev.util;
 
 public class CellValues {
     public static final int MINE = -1;

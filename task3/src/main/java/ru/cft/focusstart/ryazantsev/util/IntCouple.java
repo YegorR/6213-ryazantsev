@@ -1,4 +1,4 @@
-package ru.cft.focusstart.ryazantsev.logic;
+package ru.cft.focusstart.ryazantsev.util;
 
 import java.util.Objects;
 

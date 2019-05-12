@@ -2,18 +2,11 @@ package ru.cft.focusstart.ryazantsev.logic;
 
 import org.junit.Assert;
 import org.junit.Test;
+import ru.cft.focusstart.ryazantsev.util.CellValues;
+import ru.cft.focusstart.ryazantsev.util.IntCouple;
 
 
 public class FieldCreatorTest {
-    @Test
-    public void testGetInitialCell() {
-        IntCouple size = new IntCouple(9, 9);
-        IntCouple initialCell = new IntCouple(5, 5);
-        int expectedMines = 10;
-
-        FieldCreator fieldCreator = new FieldCreator(size, initialCell, expectedMines);
-        Assert.assertEquals("Первая ячейка не получена!", initialCell, fieldCreator.getInitialCell());
-    }
 
     @Test
     public void testSmallField() {
@@ -40,8 +33,10 @@ public class FieldCreatorTest {
     }
 
     static private void testField(IntCouple size, IntCouple initialCell, int expectedMines) {
-        FieldCreator fieldCreator = new FieldCreator(size, initialCell, expectedMines);
+        FieldCreator fieldCreator = new FieldCreator(size, expectedMines);
+        fieldCreator.createField(initialCell);
         int[][] field = fieldCreator.getField();
+        Assert.assertEquals(expectedMines, fieldCreator.getMines());
 
         int realMines = 0;
         for (int i = 0; i < size.getX(); ++i) {

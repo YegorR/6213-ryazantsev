@@ -1,6 +1,6 @@
 package ru.cft.focusstart.ryazantsev.view;
 
-import ru.cft.focusstart.ryazantsev.logic.GameStatus;
+import ru.cft.focusstart.ryazantsev.util.GameStatus;
 
 import javax.swing.*;
 import java.awt.*;
@@ -53,11 +53,16 @@ public class Top {
         }
     }
 
-    void updateFlags(int flags) {
-        flagCountLabel.setText(String.format("%03d", flags));
+    public void updateFlags(int flags) {
+        if (flags >= 0) {
+            flagCountLabel.setText(String.format("%03d", flags));
+        } else {
+            flagCountLabel.setText(String.format("%04d", flags));
+        }
+
     }
 
-    void updateTimer(int time) {
+    public void updateTimer(int time) {
         timerLabel.setText(String.format("%03d", time));
     }
 }

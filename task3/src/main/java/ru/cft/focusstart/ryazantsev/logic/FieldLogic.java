@@ -1,24 +1,24 @@
 //package ru.cft.focusstart.ryazantsev.logic;
 //
 //
-//import ru.cft.focusstart.ryazantsev.view.FieldView;
+//import ru.cft.focusstart.ryazantsev.view.Field;
 //
 //import java.util.Arrays;
 //import java.util.HashSet;
 //import java.util.Observable;
 //import java.util.Set;
 //
-//import static ru.cft.focusstart.ryazantsev.logic.CellValues.*;
+//import static ru.cft.focusstart.ryazantsev.util.CellValues.*;
 //
 //
 //public class FieldLogic extends Observable {
 //    private int[][] field;
 //    private int[][] statusField;
-//    private FieldView fieldView;
+//    private Field fieldPanel;
 //
-//    public FieldLogic(int[][] field, FieldView fieldView, IntCouple initialCell) {
+//    public FieldLogic(int[][] field, Field fieldPanel, IntCouple initialCell) {
 //        this.field = field;
-//        this.fieldView = fieldView;
+//        this.fieldPanel = fieldPanel;
 //
 //        statusField = new int[field.length][field[0].length];
 //        for (int[] row : statusField) {
@@ -48,12 +48,12 @@
 //            } else if (field[x][y] == ZERO) {
 //                sendVoid(x, y);
 //            } else {
-//                fieldView.updateCell(cell, field[x][y]);
+//                fieldPanel.updateCell(cell, field[x][y]);
 //                statusField[x][y] = OPENED;
 //            }
 //        }
 //        if (isVictory()) {
-//            fieldView.updateVictory();
+//            fieldPanel.updateVictory();
 //        }
 //    }
 //
@@ -75,18 +75,18 @@
 //        for (int i = 0; i < field.length; ++i) {
 //            for (int j = 0; j < field[0].length; ++j) {
 //                if (field[i][j] == MINE) {
-//                    fieldView.updateCell(new IntCouple(i, j), MINE);
+//                    fieldPanel.updateCell(new IntCouple(i, j), MINE);
 //                }
 //            }
 //        }
-//        fieldView.updateLose();
+//        fieldPanel.updateLose();
 //    }
 //
 //    private void sendVoid(int x, int y) {
 //        Set<IntCouple> sentCells = new HashSet<>();
 //        verifyVoidCell(x, y, sentCells);
 //        for (IntCouple cell : sentCells) {
-//            fieldView.updateCell(cell, field[cell.getX()][cell.getY()]);
+//            fieldPanel.updateCell(cell, field[cell.getX()][cell.getY()]);
 //            statusField[cell.getX()][cell.getY()] = OPENED;
 //        }
 //    }
@@ -117,9 +117,12 @@
 
 package ru.cft.focusstart.ryazantsev.logic;
 
-import ru.cft.focusstart.ryazantsev.view.FieldView;
+import ru.cft.focusstart.ryazantsev.util.FieldAnswer;
+import ru.cft.focusstart.ryazantsev.util.GameStatus;
+import ru.cft.focusstart.ryazantsev.util.IntCouple;
+import ru.cft.focusstart.ryazantsev.util.ViewCellValue;
 
-import static ru.cft.focusstart.ryazantsev.logic.CellValues.*;
+import static ru.cft.focusstart.ryazantsev.util.CellValues.*;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -128,14 +131,11 @@ import java.util.Map;
 public class FieldLogic {
     private int[][] field;
     private StatusCellValue[][] statusField;
-    private FieldView fieldView;
     private int minesCount;
 
-    public FieldLogic(int[][] field, FieldView fieldView, int minesCount) {
+    public FieldLogic(int[][] field, int minesCount) {
         this.field = field;
-        this.fieldView = fieldView;
         this.minesCount = minesCount;
-        fieldView.updateFlags(minesCount);
 
         statusField = new StatusCellValue[field.length][field[0].length];
         for (StatusCellValue[] row : statusField) {
@@ -143,7 +143,7 @@ public class FieldLogic {
         }
     }
 
-    public void pressCell(IntCouple cell, boolean left) {
+    public FieldAnswer pressCell(IntCouple cell, boolean left) {
         int x = cell.getX();
         int y = cell.getY();
         Map<IntCouple, ViewCellValue> sentCells = new HashMap<>();
@@ -162,34 +162,25 @@ public class FieldLogic {
                 }
             } else if (statusField[x][y] == StatusCellValue.TOUCHED) {
                 defeat = touchTouchedCell(x, y, sentCells);
-                if (sentCells.size() == 0) {
-                    return;
-                }
-            } else if (statusField[x][y] == StatusCellValue.FLAG) {
-                return;
             }
         } else {
             if (statusField[x][y] == StatusCellValue.UNTOUCHED) {
                 statusField[x][y] = StatusCellValue.FLAG;
                 sentCells.put(cell, ViewCellValue.FLAG);
                 minesCount--;
-                fieldView.updateFlags(minesCount);
             } else if (statusField[x][y] == StatusCellValue.FLAG) {
                 statusField[x][y] = StatusCellValue.UNTOUCHED;
                 sentCells.put(cell, ViewCellValue.UNTOUCHED);
                 minesCount++;
-                fieldView.updateFlags(minesCount);
-            } else if (statusField[x][y] == StatusCellValue.TOUCHED) {
-                defeat = touchTouchedCell(x, y, sentCells);
             }
         }
 
         if (defeat) {
-            fieldView.updateCells(sentCells, GameStatus.DEFEAT);
+            return new FieldAnswer(sentCells, GameStatus.DEFEAT, minesCount);
         } else if (isVictory()) {
-            fieldView.updateCells(sentCells, GameStatus.VICTORY);
+            return new FieldAnswer(sentCells, GameStatus.VICTORY, minesCount);
         } else {
-            fieldView.updateCells(sentCells, GameStatus.CONTINUED);
+            return new FieldAnswer(sentCells, GameStatus.CONTINUED, minesCount);
         }
     }
 

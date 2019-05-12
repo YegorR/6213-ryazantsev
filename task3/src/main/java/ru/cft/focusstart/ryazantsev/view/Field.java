@@ -1,122 +1,78 @@
 package ru.cft.focusstart.ryazantsev.view;
 
 
-import ru.cft.focusstart.ryazantsev.logic.*;
+import ru.cft.focusstart.ryazantsev.util.IntCouple;
+import ru.cft.focusstart.ryazantsev.util.ViewCellValue;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.Map;
+import java.util.function.BiConsumer;
 
-public class FieldView {
-
+public class Field {
     private JPanel gamePanel;
     private CellButton[][] buttons;
 
-    private Top top;
-
-    private boolean newGame = true;
-    private FieldCreator fieldCreator;
-    private FieldLogic fieldLogic;
-    private IntCouple fieldSize;
-    private int minesCount;
-
-    public FieldView(IntCouple fieldSize, int minesCount, Top top) {
-        this.fieldSize = fieldSize;
-        this.minesCount = minesCount;
-        this.top = top;
-
+    public Field(IntCouple fieldSize, BiConsumer<IntCouple, Boolean> controllerMethod) {
         gamePanel = new JPanel();
         gamePanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
         gamePanel.setLayout(new GridLayout(fieldSize.getX(), fieldSize.getY()));
-        top.updateStatusLabel(GameStatus.CONTINUED);
-        createButtons();
+        createButtons(fieldSize, controllerMethod);
     }
 
-
-    public void restart() {
-        if (newGame) {
-            return;
-        }
-        for (CellButton[] row : buttons) {
-            for (CellButton button : row) {
-                gamePanel.remove(button);
-            }
-        }
-        top.updateStatusLabel(GameStatus.CONTINUED);
-        createButtons();
-        gamePanel.validate();
-        fieldLogic = new FieldLogic(fieldCreator.getField(), this);
-    }
-
-    public JPanel getGamePanel() {
+    public JPanel getFieldPanel() {
         return gamePanel;
     }
 
-    public void updateCells(Map<IntCouple, ViewCellValue> cells, GameStatus status) {
-        top.updateStatusLabel(status);
-        for (Map.Entry<IntCouple, ViewCellValue> cell : cells.entrySet()) {
-            ViewCellValue state = cell.getValue();
-            int x = cell.getKey().getX();
-            int y = cell.getKey().getY();
-            buttons[x][y].setState(state);
-            if (status == GameStatus.CONTINUED) {
-                switch (state) {
-                    case ONE:
-                    case TWO:
-                    case THREE:
-                    case FOUR:
-                    case FIVE:
-                    case SIX:
-                    case SEVEN:
-                    case EIGHT:
-                    case ZERO:
-                        buttons[x][y].setEnabled(false);
-                        buttons[x][y].setEnabledRight(false);
-                        buttons[x][y].setEnabledSimpleClick(true);
-                        break;
-                    case UNTOUCHED:
-                        buttons[x][y].setEnabled(true);
-                        buttons[x][y].setEnabledRight(true);
-                        break;
-                    case FLAG:
-                        buttons[x][y].setEnabled(false);
-                        buttons[x][y].setEnabledRight(true);
-                }
-            }
+    public void updateCell(IntCouple cell, ViewCellValue state) {
+        int x = cell.getX();
+        int y = cell.getY();
+        buttons[x][y].setState(state);
+        switch (state) {
+            case ONE:
+            case TWO:
+            case THREE:
+            case FOUR:
+            case FIVE:
+            case SIX:
+            case SEVEN:
+            case EIGHT:
+            case ZERO:
+                buttons[x][y].setEnabled(false);
+                buttons[x][y].setEnabledRight(false);
+                buttons[x][y].setEnabledSimpleClick(true);
+                break;
+            case UNTOUCHED:
+                buttons[x][y].setEnabled(true);
+                buttons[x][y].setEnabledRight(true);
+                break;
+            case FLAG:
+                buttons[x][y].setEnabled(false);
+                buttons[x][y].setEnabledRight(true);
         }
-        if (status != GameStatus.CONTINUED) {
-            for (CellButton[] buttons : buttons) {
-                for (CellButton button : buttons) {
-                    button.setEnabled(false);
-                    button.setEnabledRight(false);
-                    button.setEnabledSimpleClick(false);
-                }
+    }
+
+    public void disableAll() {
+        for (CellButton[] buttons : buttons) {
+            for (CellButton button : buttons) {
+                button.setEnabled(false);
+                button.setEnabledRight(false);
+                button.setEnabledSimpleClick(false);
             }
         }
     }
 
-    private void createButtons() {
-        buttons = new CellButton[fieldSize.getX()][fieldSize.getY()];
-        for (int i = 0; i < fieldSize.getX(); ++i) {
-            for (int j = 0; j < fieldSize.getY(); ++j) {
-                buttons[i][j] = new CellButton(this, new IntCouple(i, j));
+    private void createButtons(IntCouple fieldSize, BiConsumer<IntCouple, Boolean> controllerMethod) {
+        int x = fieldSize.getX();
+        int y = fieldSize.getY();
+        buttons = new CellButton[x][y];
+        for (int i = 0; i < x; ++i) {
+            for (int j = 0; j < y; ++j) {
+                buttons[i][j] = new CellButton(controllerMethod, new IntCouple(i, j));
                 gamePanel.add(buttons[i][j]);
             }
         }
-    }
-
-    void pressButton(IntCouple button, boolean left) {
-        if (newGame) {
-            if (!left) {
-                return;
-            }
-            newGame = false;
-            fieldCreator = new FieldCreator(fieldSize, button, minesCount);
-            fieldLogic = new FieldLogic(fieldCreator.getField(), this);
-        }
-        fieldLogic.pressCell(button, left);
     }
 }
 
@@ -142,9 +98,9 @@ class CellButton extends JButton {
     private boolean enabledRight = true;
     private boolean enabledSimpleClick = true;
 
-    CellButton(FieldView fieldView, IntCouple cell) {
+    CellButton(BiConsumer<IntCouple, Boolean> controllerMethod, IntCouple cell) {
         super();
-        this.addActionListener(e -> fieldView.pressButton(cell, true));
+        this.addActionListener(e -> controllerMethod.accept(cell, true));
         this.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -153,9 +109,9 @@ class CellButton extends JButton {
             @Override
             public void mousePressed(MouseEvent e) {
                 if ((e.getButton() == MouseEvent.BUTTON3) && enabledRight) {
-                    fieldView.pressButton(cell, false);
+                    controllerMethod.accept(cell, false);
                 } else if ((e.getButton() == MouseEvent.BUTTON1) && (!isEnabled()) && (enabledSimpleClick)) {
-                    fieldView.pressButton(cell, true);
+                    controllerMethod.accept(cell, true);
                 }
             }
 

@@ -1,6 +1,6 @@
-package ru.cft.focusstart.ryazantsev;
+package ru.cft.focusstart.ryazantsev.util;
 
-import ru.cft.focusstart.ryazantsev.logic.IntCouple;
+import ru.cft.focusstart.ryazantsev.util.IntCouple;
 
 public class GameConstant {
     public static final IntCouple EASY_SIZE = new IntCouple(10, 10);

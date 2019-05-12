@@ -1,33 +1,32 @@
 package ru.cft.focusstart.ryazantsev.logic;
 
+import ru.cft.focusstart.ryazantsev.util.IntCouple;
+
 import java.util.Random;
 
-import static ru.cft.focusstart.ryazantsev.logic.CellValues.*;
+import static ru.cft.focusstart.ryazantsev.util.CellValues.*;
 
 public class FieldCreator {
     private IntCouple size;
-    private IntCouple initialCell;
-    private int expectedMines;
+    private int mines;
     private int[][] field;
 
-    public FieldCreator(IntCouple size, IntCouple initialCell, int expectedMines) {
+    public FieldCreator(IntCouple size, int mines) {
         this.size = size;
-        this.initialCell = initialCell;
-        this.expectedMines = expectedMines;
+        this.mines = mines;
         field = new int[size.getX()][size.getY()];
-        createField();
     }
 
     public int[][] getField() {
         return field;
     }
 
-    public IntCouple getInitialCell() {
-        return initialCell;
+    public int getMines() {
+        return mines;
     }
 
-    private void createField() {
-        setMines();
+    public void createField(IntCouple initialCell) {
+        setMines(initialCell);
         for (int i = 0; i < size.getX(); ++i) {
             for (int j = 0; j < size.getY(); ++j) {
                 if (field[i][j] == ZERO) {
@@ -55,9 +54,9 @@ public class FieldCreator {
         return result;
     }
 
-    private void setMines() {
+    private void setMines(IntCouple initialCell) {
         Random random = new Random(System.currentTimeMillis());
-        for (int i = 0; i < expectedMines; ++i) {
+        for (int i = 0; i < mines; ++i) {
             while (true) {
                 int row = random.nextInt(size.getX());
                 int column = random.nextInt(size.getY());
