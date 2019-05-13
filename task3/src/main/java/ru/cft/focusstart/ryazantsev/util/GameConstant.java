@@ -6,7 +6,7 @@ public class GameConstant {
     public static final IntCouple MIDDLE_SIZE = new IntCouple(15, 15);
     public static final IntCouple HARD_SIZE = new IntCouple(20, 20);
 
-    public static final int EASY_MINE_COUNT = 25;
+    public static final int EASY_MINE_COUNT = 16;
     public static final int MIDDLE_MINE_COUNT = 45;
     public static final int HARD_MINE_COUNT = 65;
 
