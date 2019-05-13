@@ -86,6 +86,7 @@ public class RecordManager {
 
         recordWindow() {
             dialog = new JDialog(frame, "Рекорды", true);
+            dialog.setResizable(false);
             dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
             dialog.setLayout(new BorderLayout());
 
