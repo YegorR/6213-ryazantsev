@@ -52,7 +52,6 @@ class GameManager {
     private JMenuBar createMenuBar() {
         JMenuBar menuBar = new JMenuBar();
         JMenu gameMenu = new JMenu("Игра");
-        JMenu helpMenu = new JMenu("Справка");
 
         JMenu newGameMenu = new JMenu("Новая игра");
         gameMenu.add(newGameMenu);
@@ -71,13 +70,7 @@ class GameManager {
         recordsItem.addActionListener(e -> recordManager.showRecords());
         gameMenu.add(recordsItem);
 
-        JMenuItem helpItem = new JMenuItem("Как играть");
-        helpMenu.add(helpItem);
-        JMenuItem authorItem = new JMenuItem("Об авторе");
-        helpMenu.add(authorItem);
-
         menuBar.add(gameMenu);
-        menuBar.add(helpMenu);
 
         return menuBar;
     }
