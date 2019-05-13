@@ -212,7 +212,7 @@ public class FieldLogic {
                 if ((field[i][j] == MINE) && (statusField[i][j] == StatusCellValue.UNTOUCHED)) {
                     sentCells.put(new IntCouple(i, j), ViewCellValue.MINE);
                 } else if ((field[i][j] != MINE) && (statusField[i][j] == StatusCellValue.FLAG)) {
-                    sentCells.put(new IntCouple(i, j), ViewCellValue.NOMINE);
+                    sentCells.put(new IntCouple(i, j), ViewCellValue.NO_MINE);
                 }
             }
         }

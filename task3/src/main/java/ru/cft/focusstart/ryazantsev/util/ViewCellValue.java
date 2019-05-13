@@ -2,7 +2,7 @@ package ru.cft.focusstart.ryazantsev.util;
 
 
 public enum ViewCellValue {
-    UNTOUCHED, ZERO, ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, FLAG, MINE, NOMINE;
+    UNTOUCHED, ZERO, ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, FLAG, MINE, NO_MINE;
 
     public static ViewCellValue getValueOfNumber(int numberValue) {
         switch (numberValue) {

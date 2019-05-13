@@ -195,7 +195,7 @@ public class FieldLogicTest {
         Assert.assertEquals(expectedAnswer, actualAnswer);
 
         expectedCells.clear();
-        expectedCells.put(new IntCouple(0, 0), ViewCellValue.NOMINE);
+        expectedCells.put(new IntCouple(0, 0), ViewCellValue.NO_MINE);
         expectedCells.put(new IntCouple(2, 4), ViewCellValue.MINE);
         expectedCells.put(new IntCouple(3, 3), ViewCellValue.MINE);
         expectedCells.put(new IntCouple(3, 7), ViewCellValue.MINE);
@@ -268,7 +268,7 @@ public class FieldLogicTest {
         expectedCells.put(new IntCouple(4, 7), ViewCellValue.MINE);
         expectedCells.put(new IntCouple(6, 3), ViewCellValue.MINE);
         expectedCells.put(new IntCouple(6, 6), ViewCellValue.MINE);
-        expectedCells.put(new IntCouple(7, 5), ViewCellValue.NOMINE);
+        expectedCells.put(new IntCouple(7, 5), ViewCellValue.NO_MINE);
         expectedCells.put(new IntCouple(6, 5), ViewCellValue.ONE);
         expectedCells.put(new IntCouple(6, 7), ViewCellValue.ONE);
         expectedCells.put(new IntCouple(7, 7), ViewCellValue.ONE);

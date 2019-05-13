@@ -189,7 +189,7 @@ class CellButton extends JButton {
             case MINE:
                 icon = mineIcon;
                 break;
-            case NOMINE:
+            case NO_MINE:
                 icon = noMineIcon;
                 break;
             default:

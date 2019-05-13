@@ -6,7 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Top {
-    private static final int SIZE = 30;
+    private static final int SIZE = 25;
 
     private JLabel statusLabel;
     private JLabel flagCountLabel;

@@ -1,6 +1,5 @@
-package ru.cft.focusstart.ryazantsev;
+package ru.cft.focusstart.ryazantsev.timer;
 
-import ru.cft.focusstart.ryazantsev.view.Field;
 
 import javax.swing.*;
 import java.util.function.Consumer;
@@ -16,6 +15,7 @@ public class GameTimer {
     }
 
     public void run() {
+        seconds = 0;
         timer.start();
     }
 
