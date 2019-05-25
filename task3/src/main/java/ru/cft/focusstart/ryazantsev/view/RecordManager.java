@@ -1,7 +1,6 @@
 package ru.cft.focusstart.ryazantsev.view;
 
-
-import ru.cft.focusstart.ryazantsev.util.GameConstant;
+import ru.cft.focusstart.ryazantsev.util.Difficulty;
 
 import javax.swing.*;
 import java.awt.*;
@@ -25,7 +24,7 @@ public class RecordManager {
         new recordWindow();
     }
 
-    public void takeRecord(int record, int mode) {
+    public void takeRecord(int record, Difficulty mode) {
         Map<String, Integer> recordsMap = chooseRecords(mode);
         if (recordsMap == null) {
             return;
@@ -60,13 +59,13 @@ public class RecordManager {
         }
     }
 
-    private Map<String, Integer> chooseRecords(int mode) {
+    private Map<String, Integer> chooseRecords(Difficulty mode) {
         switch (mode) {
-            case GameConstant.EASY:
+            case EASY:
                 return easyRecords;
-            case GameConstant.MIDDLE:
+            case MIDDLE:
                 return middleRecords;
-            case GameConstant.HARD:
+            case HARD:
                 return hardRecords;
             default:
                 return new HashMap<>();
@@ -91,14 +90,14 @@ public class RecordManager {
             dialog.setLayout(new BorderLayout());
 
             JRadioButton easyButton = new JRadioButton("Лёгкий");
-            easyButton.addActionListener(e -> writeRecord(GameConstant.EASY));
+            easyButton.addActionListener(e -> writeRecord(Difficulty.EASY));
             easyButton.setSelected(true);
 
             JRadioButton middleButton = new JRadioButton("Средний");
-            middleButton.addActionListener(e -> writeRecord(GameConstant.MIDDLE));
+            middleButton.addActionListener(e -> writeRecord(Difficulty.MIDDLE));
 
             JRadioButton hardButton = new JRadioButton("Сложный");
-            hardButton.addActionListener(e -> writeRecord(GameConstant.HARD));
+            hardButton.addActionListener(e -> writeRecord(Difficulty.HARD));
 
             ButtonGroup buttons = new ButtonGroup();
             buttons.add(easyButton);
@@ -114,11 +113,11 @@ public class RecordManager {
 
             recordPanel = new JPanel();
             dialog.add(recordPanel, BorderLayout.CENTER);
-            writeRecord(GameConstant.EASY);
+            writeRecord(Difficulty.EASY);
             dialog.setVisible(true);
         }
 
-        private void writeRecord(int mode) {
+        private void writeRecord(Difficulty mode) {
             List<Map.Entry<String, Integer>> records = sortRecords(chooseRecords(mode));
             recordPanel.removeAll();
             StringBuilder text;

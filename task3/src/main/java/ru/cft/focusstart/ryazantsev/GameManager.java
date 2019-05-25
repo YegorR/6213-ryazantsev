@@ -13,7 +13,7 @@ import java.awt.*;
 import java.util.Map;
 import java.util.Set;
 
-import static ru.cft.focusstart.ryazantsev.util.GameConstant.*;
+
 
 class GameManager {
     private FieldLogic fieldLogic;
@@ -24,7 +24,7 @@ class GameManager {
     private RecordManager recordManager;
 
     private boolean newGame = true;
-    private int mode = EASY;
+    private Difficulty mode = Difficulty.EASY;
     private JFrame frame;
     private JPanel fieldPanel;
 
@@ -33,7 +33,7 @@ class GameManager {
         gameTimer = new GameTimer(this::pushByTimer);
         createWindow();
         recordManager = new RecordManager(frame);
-        startGame(EASY);
+        startGame(mode);
     }
 
     private void createWindow() {
@@ -56,13 +56,13 @@ class GameManager {
         JMenu newGameMenu = new JMenu("Новая игра");
         gameMenu.add(newGameMenu);
         JMenuItem easyModeItem = new JMenuItem("Лёгкий");
-        easyModeItem.addActionListener(e -> startGame(EASY));
+        easyModeItem.addActionListener(e -> startGame(Difficulty.EASY));
         newGameMenu.add(easyModeItem);
         JMenuItem middleModeItem = new JMenuItem("Средний");
-        middleModeItem.addActionListener(e -> startGame(MIDDLE));
+        middleModeItem.addActionListener(e -> startGame(Difficulty.MIDDLE));
         newGameMenu.add(middleModeItem);
         JMenuItem hardModeItem = new JMenuItem("Сложный");
-        hardModeItem.addActionListener(e -> startGame(HARD));
+        hardModeItem.addActionListener(e -> startGame(Difficulty.HARD));
         newGameMenu.add(hardModeItem);
 
         gameMenu.addSeparator();
@@ -114,25 +114,9 @@ class GameManager {
         top.updateTimer(seconds);
     }
 
-    private void startGame(int mode) {
-        IntCouple fieldSize;
-        int minesCount;
-        switch (mode) {
-            case EASY:
-                fieldSize = EASY_SIZE;
-                minesCount = EASY_MINE_COUNT;
-                break;
-            case MIDDLE:
-                fieldSize = MIDDLE_SIZE;
-                minesCount = MIDDLE_MINE_COUNT;
-                break;
-            case HARD:
-                fieldSize = HARD_SIZE;
-                minesCount = HARD_MINE_COUNT;
-                break;
-            default:
-                return;
-        }
+    private void startGame(Difficulty mode) {
+        IntCouple fieldSize = mode.getSize();
+        int minesCount = mode.getMineCount();
         this.mode = mode;
         newGame = true;
         fieldCreator = new FieldCreator(fieldSize, minesCount);
