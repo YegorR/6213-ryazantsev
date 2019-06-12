@@ -2,6 +2,7 @@ plugins {
     id 'java'
 }
 
+group 'FocusStart_Ryazantsev'
 version '1.0-SNAPSHOT'
 
 sourceCompatibility = 1.8

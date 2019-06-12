@@ -1,0 +1,5 @@
+rootProject.name = 'FocusStart_Ryazantsev'
+include 'task2'
+include 'task3'
+include 'task4_1'
+include 'task4_2'
