@@ -35,7 +35,7 @@ public class Producer implements Runnable {
                         stock.wait();
                     }
                     if (isWaiting) {
-                        System.out.println(new Date() + " Проивзодитель #" + id + " возобновил работу");
+                        System.out.println(new Date() + " Производитель #" + id + " возобновил работу");
                     }
                     stock.addResource(resource);
                     stock.notifyAll();
