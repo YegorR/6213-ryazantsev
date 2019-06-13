@@ -5,24 +5,21 @@ import ru.cft.focusstart.ryazantsev.exception.StockIsFullException;
 import java.util.Date;
 
 public class Producer implements Runnable {
-    static private int idCount = 0;
-    static final private long PERIOD = 3000;
-
     private int id;
+    private long period;
     private final Stock stock;
 
-    Producer(Stock stock) {
-        id = idCount;
-        idCount++;
-
+    Producer(Stock stock, int id, long period) {
         this.stock = stock;
+        this.id = id;
+        this.period = period;
     }
 
     @Override
     public void run() {
         try {
             while (!Thread.interrupted()) {
-                Thread.sleep(PERIOD);
+                Thread.sleep(period);
                 Resource resource = new Resource();
                 System.out.println(new Date() + " Ресурс #" + resource.getId() + " произведён производчиком #" + id);
                 synchronized (stock) {
