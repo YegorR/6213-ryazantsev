@@ -8,8 +8,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Stock {
-    private static final int size = 8;
+    private int size;
     private List<Resource> resources = new ArrayList<>();
+
+    Stock(int size) {
+        this.size = size;
+    }
 
     boolean isEmpty() {
         return resources.isEmpty();
