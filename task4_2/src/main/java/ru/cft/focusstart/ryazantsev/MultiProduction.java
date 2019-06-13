@@ -7,10 +7,10 @@ public class MultiProduction {
     public static void main(String[] args) {
         Stock stock = new Stock();
         for (int i = 0; i < producerCount; ++i) {
-            new Thread(new Producer(stock)).start();
+            new Thread(new Producer(stock, i, 6000)).start();
         }
         for (int i = 0; i < consumerCount; ++i) {
-            new Thread(new Consumer(stock)).start();
+            new Thread(new Consumer(stock, i, 4000)).start();
         }
     }
 }
