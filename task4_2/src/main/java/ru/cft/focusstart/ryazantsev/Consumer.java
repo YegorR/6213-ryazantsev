@@ -5,17 +5,14 @@ import ru.cft.focusstart.ryazantsev.exception.StockIsEmptyException;
 import java.util.Date;
 
 public class Consumer implements Runnable {
-    static private int idCount = 0;
-    static final private long PERIOD = 8000;
-
     private int id;
+    private long period;
     private final Stock stock;
 
-    Consumer(Stock stock) {
-        id = idCount;
-        idCount++;
-
+    Consumer(Stock stock, int id, long period) {
         this.stock = stock;
+        this.id = id;
+        this.period = period;
     }
 
     @Override
@@ -39,7 +36,7 @@ public class Consumer implements Runnable {
 
                     stock.notifyAll();
                 }
-                Thread.sleep(PERIOD);
+                Thread.sleep(period);
                 System.out.println(new Date() + " Ресурс #" + resource.getId() + " потреблён потребителем #" + id);
             }
         } catch (InterruptedException ex) {
