@@ -1,6 +1,8 @@
 package ru.cft.focusstart.ryazantsev;
 
 import ru.cft.focusstart.ryazantsev.exception.StockIsFullException;
+import ru.cft.focusstart.ryazantsev.resource.Resource;
+import ru.cft.focusstart.ryazantsev.resource.ResourceCreator;
 
 import java.util.Date;
 
@@ -20,7 +22,7 @@ public class Producer implements Runnable {
         try {
             while (!Thread.interrupted()) {
                 Thread.sleep(period);
-                Resource resource = new Resource();
+                Resource resource = ResourceCreator.createResource();
                 System.out.println(new Date() + " Ресурс #" + resource.getId() + " произведён производчиком #" + id);
                 synchronized (stock) {
                     boolean isWaiting = false;

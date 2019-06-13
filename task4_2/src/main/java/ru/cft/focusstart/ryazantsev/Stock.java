@@ -2,6 +2,7 @@ package ru.cft.focusstart.ryazantsev;
 
 import ru.cft.focusstart.ryazantsev.exception.StockIsEmptyException;
 import ru.cft.focusstart.ryazantsev.exception.StockIsFullException;
+import ru.cft.focusstart.ryazantsev.resource.Resource;
 
 import java.util.ArrayList;
 import java.util.List;
