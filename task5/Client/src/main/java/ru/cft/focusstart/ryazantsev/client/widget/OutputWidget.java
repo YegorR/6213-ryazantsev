@@ -5,6 +5,7 @@ import ru.cft.focusstart.ryazantsev.common.Message;
 import javax.swing.*;
 import javax.swing.text.html.HTMLDocument;
 import java.awt.*;
+import java.text.SimpleDateFormat;
 
 
 public class OutputWidget {
@@ -49,6 +50,7 @@ class HTMLPrinter {
 
     private int idCount = 0;
     private HTMLDocument doc;
+    private  SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
 
     HTMLPrinter(JEditorPane editorPane) {
         editorPane.setContentType("text/html");
@@ -64,7 +66,8 @@ class HTMLPrinter {
     void printMessage(Message message) {
         switch (message.getMessageType()) {
             case MESSAGE:
-                appendText(String.format(MESSAGE, message.getName(), message.getDate(), message.getText()));
+                appendText(String.format(MESSAGE, message.getName(), dateFormat.format(message.getDate()),
+                        message.getText()));
                 break;
             case NEW_MEMBER:
                 appendText(String.format(NEW_MEMBER, message.getName()));
@@ -76,7 +79,7 @@ class HTMLPrinter {
     }
 
     //Метод HTMLDocument insertBeforeEnd работает странно - добавляет лишнюю пустую строку,
-    //поэтому приходиться действовать сложнее
+    //поэтому приходится действовать сложнее
     private void appendText(String text) {
         try {
             doc.insertAfterEnd(doc.getElement(Integer.toString(idCount)),
