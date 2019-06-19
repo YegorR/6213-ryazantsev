@@ -66,14 +66,14 @@ class HTMLPrinter {
     void printMessage(Message message) {
         switch (message.getMessageType()) {
             case MESSAGE:
-                appendText(String.format(MESSAGE, message.getName(), dateFormat.format(message.getDate()),
-                        message.getText()));
+                appendText(String.format(MESSAGE, escapeText(message.getName()), dateFormat.format(message.getDate()),
+                        escapeText(message.getText())));
                 break;
             case NEW_MEMBER:
-                appendText(String.format(NEW_MEMBER, message.getName()));
+                appendText(String.format(NEW_MEMBER, escapeText(message.getName())));
                 break;
             case GONE_MEMBER:
-                appendText(String.format(GONE_MEMBER, message.getName()));
+                appendText(String.format(GONE_MEMBER, escapeText(message.getName())));
                 break;
         }
     }
@@ -88,5 +88,13 @@ class HTMLPrinter {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+    }
+
+    private String escapeText(String text) {
+        text = text.replaceAll("&", "&amp;");
+        text = text.replaceAll("<", "&lt;");
+        text = text.replaceAll(">", "&gt;");
+        text = text.replaceAll("\"", 	"&quot;");
+        return text;
     }
 }
