@@ -9,15 +9,15 @@ import java.awt.*;
 
 public class OutputWidget {
     private JScrollPane scrollPane;
-    private TextAppender textAppender;
+    private HTMLPrinter HTMLPrinter;
 
     public OutputWidget() {
-        JEditorPane widget = new JEditorPane();
-        widget.setContentType("text/html");
-        widget.setEditable(false);
-        textAppender = new TextAppender(widget);
+        JEditorPane editorPane = new JEditorPane();
+        editorPane.setContentType("text/html");
+        editorPane.setEditable(false);
+        HTMLPrinter = new HTMLPrinter(editorPane);
 
-        scrollPane = new JScrollPane(widget);
+        scrollPane = new JScrollPane(editorPane);
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setPreferredSize(new Dimension(300, 400));
@@ -28,33 +28,62 @@ public class OutputWidget {
         return scrollPane;
     }
 
-    public void writeMessage(Message message) {
-        textAppender.appendText("<div>Hello World</div>");
+    public void printMessage(Message message) {
+        HTMLPrinter.printMessage(message);
+    }
+}
+
+class HTMLPrinter {
+    private static final String CSS = "<style>div{margin-bottom: 5px}" +
+            ".username {color: blue;font-weight: bold;font-family: sans-serif;}" +
+            ".time {color: silver;}" +
+            ".notification {color: gray;font-family: sans-serif;}" +
+            ".member {text-align: center;}" +
+            "</style>";
+    private static final String MESSAGE = "<span class=\"username\">%s</span> <span class=\"time\">%s</span><br/>" +
+            "<span class=\"text\">%s</span>";
+    private static final String NEW_MEMBER = "<div class=\"member\"><span class=\"notification\">Пользователь " +
+            "<span class=\"username\">%s</span> присоединился к нам!</span></div>";
+    private static final String GONE_MEMBER = "<div class=\"member\"><span class=\"notification\">Пользователь " +
+            "<span class=\"username\">%s</span> отключился...</span></div>";
+
+    private int idCount = 0;
+    private HTMLDocument doc;
+
+    HTMLPrinter(JEditorPane editorPane) {
+        editorPane.setContentType("text/html");
+        editorPane.setText(CSS);
+        doc = (HTMLDocument)editorPane.getDocument();
+        try {
+            doc.insertAfterStart(doc.getDefaultRootElement(), "<a id=\"0\"></a>");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
-    private class TextAppender {
-        private int idCount = 0;
-        private HTMLDocument doc;
-
-        TextAppender(JEditorPane widget) {
-            doc = (HTMLDocument)widget.getDocument();
-            try {
-                doc.insertAfterStart(doc.getDefaultRootElement(), "<a id=\"0\"></a>");
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
+    void printMessage(Message message) {
+        switch (message.getMessageType()) {
+            case MESSAGE:
+                appendText(String.format(MESSAGE, message.getName(), message.getDate(), message.getText()));
+                break;
+            case NEW_MEMBER:
+                appendText(String.format(NEW_MEMBER, message.getName()));
+                break;
+            case GONE_MEMBER:
+                appendText(String.format(GONE_MEMBER, message.getName()));
+                break;
         }
+    }
 
-        //Метод HTMLDocument insertBeforeEnd работает странно - добавляет лишнюю пустую строку,
-        //поэтому приходиться действовать сложнее
-        void appendText(String text) {
-            try {
-                doc.insertAfterEnd(doc.getElement(Integer.toString(idCount)),
-                        String.format("<div id=\"%d\">", idCount + 1) + text + "</div>");
-                idCount++;
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
+    //Метод HTMLDocument insertBeforeEnd работает странно - добавляет лишнюю пустую строку,
+    //поэтому приходиться действовать сложнее
+    private void appendText(String text) {
+        try {
+            doc.insertAfterEnd(doc.getElement(Integer.toString(idCount)),
+                    String.format("<div id=\"%d\">", idCount + 1) + text + "</div>");
+            idCount++;
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
     }
 }
