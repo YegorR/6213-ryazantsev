@@ -3,9 +3,7 @@ package ru.cft.focusstart.ryazantsev.client.widget;
 import ru.cft.focusstart.ryazantsev.common.Message;
 
 import javax.swing.*;
-import javax.swing.text.html.HTMLDocument;
 import java.awt.*;
-import java.text.SimpleDateFormat;
 
 
 public class OutputWidget {
@@ -21,7 +19,7 @@ public class OutputWidget {
         scrollPane = new JScrollPane(editorPane);
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-        scrollPane.setPreferredSize(new Dimension(300, 400));
+        scrollPane.setPreferredSize(new Dimension(300, 300));
         scrollPane.setVerticalScrollBar(new JScrollBar());
     }
 
