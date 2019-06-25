@@ -1,4 +1,4 @@
-package ru.cft.focusstart.ryazantsev.client;
+package ru.cft.focusstart.ryazantsev.client.widget;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,7 +15,7 @@ public class LoginDialog {
     public LoginDialog(JFrame frame, Consumer<LoginData> connectButtonListener) {
         dialog = new JDialog(frame, true);
         dialog.setTitle("Подключение");
-        //dialog.setResizable(false);   //Вызывает баг, при котором всё окно покрывается чёрным
+        dialog.setResizable(false);
 
         createGUI(connectButtonListener);
         dialog.pack();
@@ -73,7 +73,7 @@ public class LoginDialog {
         c.anchor = GridBagConstraints.CENTER;
         dialog.add(connectButton, c);
 
-        errorLabel = new JLabel();
+        errorLabel = new JLabel(" ");
         c.gridx = 0;
         c.gridy = 3;
         c.anchor = GridBagConstraints.LINE_START;
