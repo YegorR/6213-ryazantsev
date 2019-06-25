@@ -6,14 +6,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-public class PropertyReader {
+class PropertyReader {
     private String filename;
 
-    public PropertyReader(String filename) {
+    PropertyReader(String filename) {
         this.filename = filename;
     }
 
-    public int readPort() throws ServerChatException {
+    int readPort() throws ServerChatException {
         Properties properties = new Properties();
         try (InputStream propertiesStream = ChatServer.class.getClassLoader().getResourceAsStream(filename)) {
             if (propertiesStream == null) {

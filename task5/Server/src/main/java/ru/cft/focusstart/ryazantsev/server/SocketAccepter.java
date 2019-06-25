@@ -8,11 +8,11 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class SocketAccepter {
+class SocketAccepter {
     private ClientRepository clientRepository;
     private ServerSocket serverSocket;
 
-    public SocketAccepter(int port, ClientRepository clientRepository) throws ServerChatException {
+    SocketAccepter(int port, ClientRepository clientRepository) throws ServerChatException {
         this.clientRepository = clientRepository;
         try {
             serverSocket = new ServerSocket(port);
@@ -24,7 +24,7 @@ public class SocketAccepter {
 
     }
 
-    public void runServer() throws ServerChatException {
+    void runServer() throws ServerChatException {
         while (true) {
             try {
                 Socket clientSocket = serverSocket.accept();
@@ -36,7 +36,7 @@ public class SocketAccepter {
         }
     }
 
-    public void stop() throws ServerChatException {
+    void stop() throws ServerChatException {
         try {
             serverSocket.close();
         } catch (IOException ex) {

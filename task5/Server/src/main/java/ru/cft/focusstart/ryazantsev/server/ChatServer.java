@@ -13,10 +13,12 @@ public class ChatServer {
         try {
             PropertyReader propertyReader = new PropertyReader("server.properties");
             int port = propertyReader.readPort();
+
             ClientRepository clientRepository = new ClientRepository();
             Thread clientHandlerThread = new Thread(new ClientHandler(clientRepository));
             clientHandlerThread.start();
             SocketAccepter socketAccepter = new SocketAccepter(port, clientRepository);
+
             Runtime.getRuntime().addShutdownHook(new Thread(() -> {
                 try {
                     clientHandlerThread.interrupt();

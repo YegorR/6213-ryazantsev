@@ -11,12 +11,12 @@ import static ru.cft.focusstart.ryazantsev.common.Message.MessageType.*;
 import java.io.IOException;
 import java.util.Iterator;
 
-public class ClientHandler implements Runnable {
+class ClientHandler implements Runnable {
 
     private ClientRepository clientRepository;
     private final static Logger logger = LoggerFactory.getLogger(ClientHandler.class);
 
-    public ClientHandler(ClientRepository clientRepository) {
+    ClientHandler(ClientRepository clientRepository) {
         this.clientRepository = clientRepository;
     }
 
