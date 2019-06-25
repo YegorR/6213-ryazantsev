@@ -1,4 +1,4 @@
-package ru.cft.focusstart.ryazantsev.client;
+package ru.cft.focusstart.ryazantsev.client.net;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import ru.cft.focusstart.ryazantsev.common.Message;
