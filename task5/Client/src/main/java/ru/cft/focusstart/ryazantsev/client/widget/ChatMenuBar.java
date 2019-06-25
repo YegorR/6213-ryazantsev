@@ -31,15 +31,12 @@ public class ChatMenuBar {
         outChat.addActionListener(action);
     }
 
+    public void switchMode(boolean inMode) {
+        inChat.setEnabled(inMode);
+        outChat.setEnabled(!inMode);
+    }
+
     public void addExitListener(ActionListener action) {
         exit.addActionListener(action);
-    }
-
-    public void enableInChat(boolean enable) {
-        inChat.setEnabled(enable);
-    }
-
-    public void enableOutChat(boolean enable) {
-        outChat.setEnabled(enable);
     }
 }

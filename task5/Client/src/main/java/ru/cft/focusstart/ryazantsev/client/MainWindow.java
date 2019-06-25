@@ -109,10 +109,9 @@ public class MainWindow {
         menu.addOutChatListener(e -> {
             netManager.close();
             button.setEnabled(false);
-            menu.enableOutChat(false);
-            menu.enableInChat(true);
+            menu.switchMode(true);
         });
-        menu.enableOutChat(false);
+        menu.switchMode(true);
     }
 
     private void login(LoginDialog.LoginData loginData) {
@@ -154,8 +153,7 @@ public class MainWindow {
             case SUCCESSFUL_CONNECT:
                 if (loginDialog.isVisible()) {
                     loginDialog.destroy();
-                    menu.enableInChat(false);
-                    menu.enableOutChat(true);
+                    menu.switchMode(false);
                     button.setEnabled(true);
                     membersListWidget.clear();
                     outputWidget.clear();
@@ -186,8 +184,7 @@ public class MainWindow {
                 membersListWidget.addMember(message.getName());
                 break;
             case SERVER_OUT:
-                menu.enableInChat(true);
-                menu.enableOutChat(false);
+                menu.switchMode(true);
                 outputWidget.printMessage(message);
                 button.setEnabled(false);
                 netManager.close();
