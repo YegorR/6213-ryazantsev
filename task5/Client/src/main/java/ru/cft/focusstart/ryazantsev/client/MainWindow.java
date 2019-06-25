@@ -1,5 +1,6 @@
 package ru.cft.focusstart.ryazantsev.client;
 
+import ru.cft.focusstart.ryazantsev.client.net.NetManager;
 import ru.cft.focusstart.ryazantsev.client.widget.*;
 import ru.cft.focusstart.ryazantsev.common.Message;
 
@@ -9,7 +10,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 
-public class MainWindow {
+class MainWindow {
     private JFrame frame;
     private OutputWidget outputWidget;
     private InputWidget inputWidget;
@@ -21,7 +22,7 @@ public class MainWindow {
     private LoginDialog loginDialog;
     private LoginDialog.LoginData loginData;
 
-    public MainWindow() {
+    MainWindow() {
         frame = new JFrame();
         frame.setTitle("Chat");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
