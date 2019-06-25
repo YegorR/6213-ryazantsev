@@ -1,5 +1,8 @@
 package ru.cft.focusstart.ryazantsev.server.client;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import ru.cft.focusstart.ryazantsev.common.Message;
+
 import java.io.*;
 import java.net.Socket;
 import java.util.Objects;
@@ -9,6 +12,7 @@ public class Client {
     private BufferedReader reader;
     private PrintWriter writer;
     private String name = null;
+    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
     public Client(Socket socket) throws IOException {
         this.socket = socket;
@@ -16,28 +20,20 @@ public class Client {
         writer = new PrintWriter(socket.getOutputStream(), true);
     }
 
-    public boolean readyToRead() throws IOException {
+    public boolean isReady() throws IOException {
         return reader.ready();
-    }
-
-    void setName(String name) {
-        this.name = name;
-    }
-
-    public boolean isConnected() {
-        return true; //ЗАГЛУШКА
     }
 
     public String getName() {
         return name;
     }
 
-    public String read() throws IOException {
-        return reader.readLine();
+    public Message read() throws IOException {
+        return OBJECT_MAPPER.readValue(reader.readLine(), Message.class);
     }
 
-    public void write(String message) {
-        writer.println(message);
+    public void write(Message message) throws IOException {
+        writer.println(OBJECT_MAPPER.writeValueAsString(message));
     }
 
     @Override
@@ -54,5 +50,13 @@ public class Client {
     @Override
     public int hashCode() {
         return Objects.hash(socket, reader, writer, name);
+    }
+
+    void setName(String name) {
+        this.name = name;
+    }
+
+    public void close() throws IOException {
+        socket.close();
     }
 }

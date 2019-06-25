@@ -18,6 +18,8 @@ dependencies {
 
     compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.26'
     runtime group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3'
+
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.9'
 }
 
 jar {

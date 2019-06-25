@@ -14,10 +14,11 @@ public class MembersListWidget {
         panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         scrollPane = new JScrollPane(panel);
-        scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setPreferredSize(new Dimension(150, 300));
         scrollPane.setVerticalScrollBar(new JScrollBar());
+        scrollPane.setHorizontalScrollBar(new JScrollBar(JScrollBar.HORIZONTAL));
     }
 
     public JComponent getWidget() {
@@ -43,5 +44,15 @@ public class MembersListWidget {
         panel.remove(members.get(name));
         members.remove(name);
         panel.validate();
+        panel.repaint();
+    }
+
+    public void clear() {
+        for (JLabel label : members.values()) {
+            panel.remove(label);
+        }
+        members.clear();
+        panel.validate();
+        panel.repaint();
     }
 }
