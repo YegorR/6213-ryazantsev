@@ -79,7 +79,7 @@ public class NetManager {
 
     public void close() {
         try {
-            sendMessage(new Message(Message.MessageType.GONE_MEMBER));
+            sendMessage_private(new Message(Message.MessageType.GONE_MEMBER));
             reader = null;
             writer = null;
             socket.close();
