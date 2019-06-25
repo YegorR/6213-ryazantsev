@@ -1,10 +1,15 @@
 package ru.cft.focusstart.ryazantsev.server.client;
 
+import ru.cft.focusstart.ryazantsev.common.Message;
+
+import java.io.IOException;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 public class ClientRepository {
-    private Set<Client> clients = new HashSet<>();
+    private Set<Client> clients = new CopyOnWriteArraySet<>();
     private Set<String> names = new HashSet<>();
 
     public void addClient(Client client) {
@@ -27,11 +32,23 @@ public class ClientRepository {
         clients.remove(client);
     }
 
-    public Client[] getClients() {
-        return clients.toArray(new Client[0]);
+    public Iterator<Client> getClientIterator() {
+        return clients.iterator();
     }
 
+    public void writeEveryoneWithName(Message message) throws IOException {
+        for (Client client : clients) {
+            if (client.getName() != null) {
+                client.write(message);
+            }
+        }
+    }
 
+    public void closeEveryone() throws IOException {
+        for (Client client : clients) {
+            client.close();
+        }
+    }
 }
 
 
