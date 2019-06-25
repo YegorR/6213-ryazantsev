@@ -16,23 +16,27 @@ public class NetManager {
     private PrintWriter writer;
     private BufferedReader reader;
 
+    private Consumer<Boolean> connectListener;
+    private Consumer<Boolean> sendListener;
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
-    public NetManager() {
+    public NetManager(Consumer<Boolean> connectListener, Consumer<Boolean> sendListener) {
+        this.connectListener = connectListener;
+        this.sendListener = sendListener;
         Runtime.getRuntime().addShutdownHook(new Thread(this::close));
     }
 
-    public void connect(String host, int port, Consumer<Boolean> connectListener) {
+    public void connect(String host, int port) {
         new SwingWorker<Void, Void>() {
             @Override
             protected Void doInBackground() {
-                connectListener.accept(connect(host, port));
+                connectListener.accept(connect_private(host, port));
                 return null;
             }
         }.execute();
     }
 
-    private boolean connect(String address, int port) {
+    private boolean connect_private(String address, int port) {
         try {
             socket = new Socket(address, port);
             writer = new PrintWriter(socket.getOutputStream(), true);
@@ -43,17 +47,17 @@ public class NetManager {
         return true;
     }
 
-    public void sendMessage(Message message, Consumer<Boolean> sendListener) {
+    public void sendMessage(Message message) {
         new SwingWorker<Void, Void>() {
             @Override
             protected Void doInBackground() {
-                sendListener.accept(sendMessage(message));
+                sendListener.accept(sendMessage_private(message));
                 return null;
             }
         }.execute();
     }
 
-    private boolean sendMessage(Message message) {
+    private boolean sendMessage_private(Message message) {
         try {
             writer.println(OBJECT_MAPPER.writeValueAsString(message));
             return true;

@@ -28,7 +28,7 @@ class MainWindow {
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setResizable(false);
         createGUI();
-        netManager = new NetManager();
+        netManager = new NetManager(this::receiveConnection, this::receiveMessageStatus);
         frame.pack();
         frame.setVisible(true);
         new SwingWorker<Void, Void>() {
@@ -94,7 +94,7 @@ class MainWindow {
             Message message = new Message(MESSAGE);
             message.setText(inputWidget.readText());
             message.setName(loginData.getName());
-            netManager.sendMessage(message, this::receiveMessageStatus);
+            netManager.sendMessage(message);
         });
         button.setEnabled(false);
         c.gridx = 1;
@@ -134,7 +134,7 @@ class MainWindow {
             return;
         }
         loginDialog.setEnabledButton(false);
-        netManager.connect(host, port, this::receiveConnection);
+        netManager.connect(host, port);
     }
 
     private void receiveConnection(boolean isConnected) {
@@ -144,7 +144,7 @@ class MainWindow {
         } else {
             Message message = new Message(Message.MessageType.NEW_MEMBER);
             message.setName(loginData.getName());
-            netManager.sendMessage(message, this::receiveMessageStatus);
+            netManager.sendMessage(message);
         }
     }
 
@@ -159,7 +159,7 @@ class MainWindow {
                     membersListWidget.clear();
                     outputWidget.clear();
                 } else {
-                    netManager.sendMessage(new Message(ERROR), this::receiveMessageStatus);
+                    netManager.sendMessage(new Message(ERROR));
                 }
                 break;
             case MESSAGE:
@@ -175,7 +175,7 @@ class MainWindow {
                 break;
             case BAD_NAME:
                 if (!loginDialog.isVisible()) {
-                    netManager.sendMessage(new Message(ERROR), this::receiveMessageStatus);
+                    netManager.sendMessage(new Message(ERROR));
                 } else {
                     loginDialog.writeErrorMessage("Выберите другое имя");
                     loginDialog.setEnabledButton(true);
