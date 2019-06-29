@@ -11,6 +11,7 @@ import java.net.Socket;
 class SocketAccepter {
     private ClientRepository clientRepository;
     private ServerSocket serverSocket;
+    private boolean isInterrupted = false;
 
     SocketAccepter(int port, ClientRepository clientRepository) throws ServerChatException {
         this.clientRepository = clientRepository;
@@ -25,19 +26,22 @@ class SocketAccepter {
     }
 
     void runServer() throws ServerChatException {
-        while (true) {
+        while (!isInterrupted) {
             try {
                 Socket clientSocket = serverSocket.accept();
                 Client client = new Client(clientSocket);
                 clientRepository.addClient(client);
             } catch (IOException ex) {
-                throw new ServerChatException("IO error of server socket ", ex);
+                if (!isInterrupted) {
+                    throw new ServerChatException("IO error of server socket ", ex);
+                }
             }
         }
     }
 
     void stop() throws ServerChatException {
         try {
+            isInterrupted = true;
             serverSocket.close();
         } catch (IOException ex) {
             throw new ServerChatException("IO error of server socket closing", ex);
