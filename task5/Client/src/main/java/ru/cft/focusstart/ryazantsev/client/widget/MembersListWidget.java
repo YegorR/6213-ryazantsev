@@ -35,6 +35,8 @@ public class MembersListWidget {
         memberLabel.setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));
         members.put(name, memberLabel);
         panel.add(memberLabel);
+        panel.revalidate();
+        panel.repaint();
     }
 
     public void removeMember(String name) {
@@ -43,7 +45,7 @@ public class MembersListWidget {
         }
         panel.remove(members.get(name));
         members.remove(name);
-        panel.validate();
+        panel.revalidate();
         panel.repaint();
     }
 
@@ -52,7 +54,7 @@ public class MembersListWidget {
             panel.remove(label);
         }
         members.clear();
-        panel.validate();
+        panel.revalidate();
         panel.repaint();
     }
 }
