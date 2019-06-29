@@ -2,6 +2,7 @@ package ru.cft.focusstart.ryazantsev.client.widget;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
 import java.util.function.Consumer;
 
 public class LoginDialog {
@@ -100,6 +101,11 @@ public class LoginDialog {
     public void setEnabledButton(boolean enable) {
         connectButton.setEnabled(enable);
     }
+
+    public void addCloseListener(WindowAdapter listener) {
+        dialog.addWindowListener(listener);
+    }
+
 
     public class LoginData {
         private String host;
